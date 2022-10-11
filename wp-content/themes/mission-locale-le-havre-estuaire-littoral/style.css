@@ -1,0 +1,21 @@
+/* Error: Undefined mixin.
+ *     ,
+ * 132 | /         @include for-desktop-only {
+ * 133 | |             display: flex;
+ * 134 | |             width: 45vw;
+ * 135 | |             flex-direction: row;
+ * 136 | \         }
+ *     '
+ *   sass\theme.scss 132:9  @import
+ *   sass\style.scss 39:9   root stylesheet */
+
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined mixin.\a     \2577 \a 132 \2502  \250c          @include for-desktop-only {\a 133 \2502  \2502              display: flex;\a 134 \2502  \2502              width: 45vw;\a 135 \2502  \2502              flex-direction: row;\a 136 \2502  \2514          }\a     \2575 \a   sass\\theme.scss 132:9  @import\a   sass\\style.scss 39:9   root stylesheet";
+}
