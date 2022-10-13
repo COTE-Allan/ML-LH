@@ -129,7 +129,7 @@ span.dashicons {
         width: 100vw;
         flex-direction: column-reverse;
 
-        @include for-desktop-only {
+        @include for-desktop-up {
             display: flex;
             width: 45vw;
             flex-direction: row;
@@ -396,6 +396,26 @@ span.dashicons {
             flex: 1 1 0px;
             height: auto;
 
+        }
+    }
+}
+
+
+@mixin square-size {
+    width: 500px;
+    height: 500px;
+}
+
+.close {
+
+    @include square-size();
+
+    &-nav.white {
+
+        @include square-size();
+
+        & a.item {
+            color: white;
         }
     }
 }

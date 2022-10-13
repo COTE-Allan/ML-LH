@@ -129,7 +129,7 @@ function mission_locale_le_havre_estuaire_littoral_widgets_init()
 {
 	register_sidebar(
 		array(
-			'name'          => esc_html__('Sidebar', 'mission-locale-le-havre-estuaire-littoral'),
+			'name'          => esc_html__('Sidebar ML', 'mission-locale-le-havre-estuaire-littoral'),
 			'id'            => 'sidebar-1',
 			'description'   => esc_html__('Add widgets here.', 'mission-locale-le-havre-estuaire-littoral'),
 			'before_widget' => '<section id="%1$s" class="widget %2$s">',
