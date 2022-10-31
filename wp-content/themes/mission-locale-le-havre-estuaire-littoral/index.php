@@ -15,44 +15,47 @@
 
 get_header();
 ?>
-
 <main id="primary" class="site-main">
-
     <?php
-	if (have_posts()) :
-
-		if (is_home() && !is_front_page()) :
+	echo do_shortcode('[smartslider3 slider="2"]');
 	?>
-    <header>
-        <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-    </header>
+    <div class="site-main-content">
+        <div class="site-main-content-news">
+            <h1>Actualité</h1>
+            <hr />
+            <?php
+			$count = 0; //set up counter variable
+			if (have_posts()) :
+
+				if (is_home() && !is_front_page()) :
+			?>
+            <header>
+                <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
+            </header>
+            <?php
+				endif;
+				/* Start the Loop */
+				while (have_posts()) :
+					$count++; //increment the variable by 1 each time the loop executes
+					if ($count > 3) {
+						break;
+					}
+					the_post();
+					get_template_part('template-parts/contents', get_post_type());
+				endwhile;
+				the_posts_navigation();
+			else :
+				get_template_part('template-parts/content', 'none');
+			endif;
+			?>
+        </div>
+    </div>
     <?php
-		endif;
-
-		/* Start the Loop */
-		while (have_posts()) :
-			the_post();
-
-			/*
-				 * Include the Post-Type-specific template for the content.
-				 * If you want to override this in a child theme, then include a file
-				 * called content-___.php (where ___ is the Post Type name) and that will be used instead.
-				 */
-			get_template_part('template-parts/content', get_post_type());
-
-		endwhile;
-
-		the_posts_navigation();
-
-	else :
-
-		get_template_part('template-parts/content', 'none');
-
-	endif;
+	echo do_shortcode('[instagram-feed feed=1]');
 	?>
+</main>
 
-</main><!-- #main -->
+
 
 <?php
-get_sidebar();
 get_footer();

@@ -191,3 +191,29 @@ require get_template_directory() . '/inc/customizer.php';
 if (defined('JETPACK__VERSION')) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
+
+// Replaces the excerpt "Read More" text by a link
+function new_excerpt_more($more)
+{
+	global $post;
+	return ' [...] <a class="moretag" href="' . get_permalink($post->ID) . '"> Lire la suite...</a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+
+// Le premier post aura une classe supplémentaire.
+function firstpost_class($class)
+{
+	global $post, $posts;
+	if (is_home() && !is_paged() && ($post == $posts[0])) $class[] = 'firstpost';
+	return $class;
+}
+add_filter('post_class', 'firstpost_class');
+
+
+//Changement de taille max de l'extrait.
+function my_excerpt_length($length)
+{
+	return 45;
+}
+add_filter('excerpt_length', 'my_excerpt_length');
