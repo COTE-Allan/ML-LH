@@ -993,6 +993,11 @@ span.dashicons {
 --------------------------------------------- */
 .site-header {
   padding-top: 10px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: white;
 }
 @media (min-width: 1200px) {
   .site-header {
@@ -1519,6 +1524,42 @@ aside#secondary .wp-block-embed__wrapper iframe {
   height: 100%;
   width: 100%;
   transform: scale(1.1);
+}
+.site-single .nav-links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: #f39200 solid 5px;
+}
+@media (min-width: 1200px) {
+  .site-single .nav-links {
+    flex-direction: row;
+  }
+}
+.site-single .nav-links div {
+  margin-top: 2px;
+  text-align: start;
+}
+@media (min-width: 1200px) {
+  .site-single .nav-links div.nav-next {
+    text-align: end;
+  }
+}
+.site-single .nav-links a {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 300px;
+  text-overflow: ellipsis;
+  display: inline-block;
+  background-color: #a3195b;
+  color: white;
+  transition: background-color 200ms ease-in-out;
+  padding: 10px;
+  text-decoration: none;
+}
+.site-single .nav-links a:hover {
+  background-color: #8d164f;
 }
 
 /* Searching

@@ -43,7 +43,6 @@ get_header();
 					the_post();
 					get_template_part('template-parts/contents', get_post_type());
 				endwhile;
-				the_posts_navigation();
 			else :
 				get_template_part('template-parts/content', 'none');
 			endif;
@@ -51,6 +50,7 @@ get_header();
         </div>
     </div>
     <?php
+	echo do_shortcode('[sc-ml-map]');
 	echo do_shortcode('[instagram-feed feed=1]');
 	?>
 </main>

@@ -29,17 +29,14 @@
 				wp_kses_post(get_the_title())
 			)
 		);
-
-		wp_link_pages(
+		?>
+        <?php
+		the_post_navigation(
 			array(
-				'before' => '<div class="page-links">' . esc_html__('Pages:', 'mission-locale-le-havre-estuaire-littoral'),
-				'after'  => '</div>',
+				'prev_text' => '<span class="nav-subtitle">' . esc_html__('Article précédent:', 'mission-locale-le-havre-estuaire-littoral') . '</span> <span class="nav-title">%title</span>',
+				'next_text' => '<span class="nav-subtitle">' . esc_html__('Article suivant:', 'mission-locale-le-havre-estuaire-littoral') . '</span> <span class="nav-title">%title</span>',
 			)
 		);
 		?>
     </div><!-- .entry-content -->
-
-    <footer class="entry-footer">
-        <?php mission_locale_le_havre_estuaire_littoral_entry_footer(); ?>
-    </footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->
