@@ -9,7 +9,7 @@
  */
 
 ?>
-
+<!-- #post-<?php the_ID(); ?> -->
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <?php mission_locale_le_havre_estuaire_littoral_post_thumbnail(); ?>
 
@@ -18,8 +18,7 @@
 		the_content(
 			sprintf(
 				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers */
-					__('Continue reading<span class="screen-reader-text"> "%s"</span>', 'mission-locale-le-havre-estuaire-littoral'),
+					__('Lire la suite...<span class="screen-reader-text"> "%s"</span>', 'mission-locale-le-havre-estuaire-littoral'),
 					array(
 						'span' => array(
 							'class' => array(),
@@ -38,5 +37,5 @@
 			)
 		);
 		?>
-    </div><!-- .entry-content -->
-</article><!-- #post-<?php the_ID(); ?> -->
+    </div>
+</article>

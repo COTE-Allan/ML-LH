@@ -50,33 +50,6 @@ class Buttons {
 	}
 
 	/**
-	 * Enqueue font awesome.
-	 *
-	 * @action wp_enqueue_scripts
-	 */
-	public function font_awesome() {
-		wp_enqueue_style( "{$this->plugin->assets_prefix}-font-awesome" );
-
-		$html_share_buttons_form = '';
-
-		// Get settings.
-		$arr_settings = $this->class_ssba->get_ssba_settings();
-
-		// Get the font family needed.
-		$html_share_buttons_form .= $this->admin_panel->get_font_family();
-
-		// If left to right.
-		if ( is_rtl() ) {
-			// Move save button.
-			$html_share_buttons_form .= '.ssba-btn-save{ left: 0!important;
-										right: auto !important;
-										border-radius: 0 5px 5px 0; }';
-		}
-
-		wp_add_inline_style( "{$this->plugin->assets_prefix}-ssba", $html_share_buttons_form );
-	}
-
-	/**
 	 * Format the returned number.
 	 *
 	 * @param integer $int_number The number to format.
@@ -154,15 +127,77 @@ class Buttons {
 		}
 
 		// Placement on pages/posts/categories/archives/homepage.
-		if ( ( ! is_home() && ! is_front_page() && is_page() && ( 'Y' !== $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_pages'] || ( 'Y' === $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_plus_pages'] ) ) )
+		if ( (
+			false === is_home() &&
+			false === is_front_page() &&
+			true === is_page() &&
+			(
+				'Y' !== $arr_settings['ssba_new_buttons'] &&
+				'Y' === $arr_settings['ssba_pages'] ||
+				(
+					'Y' === $arr_settings['ssba_new_buttons'] &&
+					'Y' === $arr_settings['ssba_plus_pages']
+				)
+			) )
 			||
-			( is_single() && ( 'Y' !== $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_posts'] || ( 'Y' === $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_plus_posts'] ) ) )
+			(
+				true === is_single() &&
+				(
+					'Y' !== $arr_settings['ssba_new_buttons'] &&
+					'Y' === $arr_settings['ssba_posts'] ||
+					(
+						'Y' === $arr_settings['ssba_new_buttons'] &&
+						'Y' === $arr_settings['ssba_plus_posts']
+					)
+				)
+			)
 			||
-			( is_category() && ( 'Y' !== $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_cats_archs'] || ( 'Y' === $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_plus_cats_archs'] ) ) )
+			(
+				true === is_category() &&
+				(
+					'Y' !== $arr_settings['ssba_new_buttons'] &&
+					'Y' === $arr_settings['ssba_cats_archs'] ||
+					(
+						'Y' === $arr_settings['ssba_new_buttons'] &&
+						'Y' === $arr_settings['ssba_plus_cats_archs']
+					)
+				)
+			)
 			||
-			( is_archive() && ( 'Y' !== $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_cats_archs'] || ( 'Y' === $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_plus_cats_archs'] ) ) )
+			(
+				true === is_archive() &&
+				(
+					'Y' !== $arr_settings['ssba_new_buttons'] &&
+					'Y' === $arr_settings['ssba_cats_archs'] ||
+					(
+						'Y' === $arr_settings['ssba_new_buttons'] &&
+						'Y' === $arr_settings['ssba_plus_cats_archs']
+					)
+				)
+			)
 			||
-			( ( is_home() || is_front_page() ) && ( 'Y' !== $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_homepage'] || ( 'Y' === $arr_settings['ssba_new_buttons'] && 'Y' === $arr_settings['ssba_plus_homepage'] ) ) )
+			(
+				(
+					true === is_home() ||
+					true === is_front_page()
+				) &&
+				(
+					'Y' !== $arr_settings['ssba_new_buttons'] &&
+					'Y' === $arr_settings['ssba_homepage'] ||
+					(
+						'Y' === $arr_settings['ssba_new_buttons'] &&
+						'Y' === $arr_settings['ssba_plus_homepage']
+					)
+				)
+			)
+			 ||
+			 (
+				 true === is_front_page() &&
+				 (
+						 'Y' === $arr_settings['ssba_new_buttons'] &&
+						 true === $this->class_ssba->is_enabled_on_excerpts()
+				 )
+			 )
 			||
 			$boo_shortcode
 		) {
@@ -194,7 +229,7 @@ class Buttons {
 			$wrap_id = 'Y' !== $arr_settings['ssba_new_buttons'] ? 'ssba-classic-2' : 'ssba-modern-2';
 
 			// Ssba div.
-			$html_share_buttons = '<!-- Simple Share Buttons Adder (' . esc_html( SSBA_VERSION ) . ') simplesharebuttons.com --><div class="' . esc_attr( $wrap_id ) . ' ssba ssbp-wrap' . esc_attr( ' ' . $arr_settings['ssba_plus_align'] ) . ' ssbp--theme-' . esc_attr( $arr_settings['ssba_plus_button_style'] ) . '">';
+			$html_share_buttons = '<!-- Simple Share Buttons Adder (' . esc_html( SSBA_VERSION ) . ') simplesharebuttons.com --><div class="' . esc_attr( $wrap_id ) . ' ssba ssbp-wrap' . esc_attr( ' align' . $arr_settings['ssba_plus_align'] ) . ' ssbp--theme-' . esc_attr( $arr_settings['ssba_plus_button_style'] ) . '">';
 
 			// Center if set so.
 			$html_share_buttons .= '<div style="text-align:' . esc_attr( $alignment ) . '">';
@@ -457,97 +492,13 @@ class Buttons {
 
 			// For each included button.
 			foreach ( $arr_selected_ssba as $str_selected ) {
-				$str_get_button = 'ssba_' . $str_selected;
-
 				// Add a list item for each selected option.
-				$html_share_buttons .= $this->$str_get_button( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count );
+				$html_share_buttons .= $this->get_button( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count, $str_selected );
 			}
 
 			if ( 'Y' === $arr_settings['ssba_new_buttons'] ) {
 				$html_share_buttons .= '</ul>';
 			}
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get facebook button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_facebook( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Facebook';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-facebook ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--facebook">';
-		}
-
-		// If the sharethis terms have been accepted.
-		if ( 'Y' === $arr_settings['accepted_sharethis_terms'] && '' !== $arr_settings['facebook_app_id'] ) {
-			// Facebook share link.
-			$html_share_buttons .= '<a data-site="" data-facebook="mobile" class="ssba_facebook_share' . esc_attr( $plus_class ) . '" data-href="' . esc_attr( $url_current_page ) . '" href="https://www.facebook.com/dialog/share?app_id=' . esc_attr( $arr_settings['facebook_app_id'] ) . '&display=popup&href=' . esc_attr( $url_current_page ) . '&redirect_uri=' . esc_url( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-		} else {
-			// Facebook share link.
-			$html_share_buttons .= '<a data-site="" class="ssba_facebook_share' . esc_attr( $plus_class ) . '" href="http://www.facebook.com/sharer.php?u=' . esc_attr( $url_current_page ) . '" ' . $target . $nofollow . '>';
-		}
-
-		// If not using custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show selected ssba image.
-			$html_share_buttons .= '<img src="' . esc_url( plugins_url() ) . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/facebook.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Facebook" class="ssba ssba-img" alt="Share on Facebook" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_facebook'] ) . '" title="Facebook" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" class="ssba ssba-img" alt="Share on Facebook" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			// Get and add facebook share count.
-			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html( $this->get_facebook_share_count( $url_current_page, $arr_settings ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
 		}
 
 		// Return share buttons.
@@ -608,7 +559,7 @@ class Buttons {
 					$str_get_button = 'ssba_' . $str_selected;
 
 					// Add a list item for each selected option.
-					$html_share_buttons .= $this->$str_get_button( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count );
+					$html_share_buttons .= $this->get_button( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count, $str_selected, 'bar' );
 				}
 			}
 		}
@@ -618,34 +569,116 @@ class Buttons {
 	}
 
 	/**
-	 * Get facebook button.
+	 * Get button.
 	 *
 	 * @param array  $arr_settings The current ssba settings.
 	 * @param string $url_current_page The current page url.
 	 * @param string $str_page_title The page title.
 	 * @param bool   $boo_show_share_count Show share count or not.
+	 * @param string $button_name Button name string.
+	 * @param string $button_type Button type string.
 	 *
 	 * @return string
 	 */
-	public function ssba_facebook_save( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
+	public function get_button( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count, $button_name, $button_type = 'plus' ) {
+		$nofollow  = ( 'Y' === $arr_settings['ssba_plus_rel_nofollow']
+						   && 'Y' === $arr_settings['ssba_new_buttons']
+						   && ! isset(
+				$arr_settings['bar_call']
+			) )
+						 ||
+						 ( 'Y' === $arr_settings['ssba_bar_rel_nofollow']
+						   && isset(
+							   $arr_settings['bar_call']
+						   ) ) ? ' rel=nofollow ' : '';
+
+		$network       = $button_name;
+		$flattr_id     = isset( $arr_settings['ssba_plus_flattr_user_id'] ) ? $arr_settings['ssba_plus_flattr_user_id'] : '';
+		$network_url   = self::get_share_url( $button_name, $str_page_title, '', $url_current_page, $flattr_id );
+		$network_color = 'Y' === $arr_settings['ssba_new_buttons'] || 'Y' === $arr_settings['ssba_bar_buttons'] ? self::get_button_color( $button_name ) : '';
+		$network_full  = ucwords( str_replace( '_', ' ', $button_name ) );
+		$image_name    = str_replace( array( 'get_pocket', 'diggit', '_' ), array( 'pocket', 'digg', '' ), $button_name );
+		$icon_code     = self::get_button_image( $button_name );
+		$icon_white    = self::get_button_image( $button_name, 'white' );
+		$print         = 'print' === $button_name ? 'onclick="window.print()"' : '';
+		$target        =
+			( 'Y' === $arr_settings['ssba_plus_share_new_window']
+			&& 'Y' === $arr_settings['ssba_new_buttons']
+			&& ! isset(
+				$arr_settings['bar_call']
+			) )
+			||
+			( 'Y' === $arr_settings['ssba_share_new_window']
+			&& 'Y' !== $arr_settings['ssba_new_buttons']
+			&& ! isset(
+				$arr_settings['bar_call']
+			) )
+			||
+			( 'Y' === $arr_settings['ssba_bar_share_new_window']
+			&& isset(
+				$arr_settings['bar_call']
+			) ) ? ' target=_blank ' : '';
+		$plus_class    = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? " ssbp-{$button_name} ssbp-btn" : '';
+		$button_back   = $arr_settings['ssba_plus_button_color'] ? esc_attr( 'background: ' . $arr_settings[ "ssba_{$button_type}_button_color" ] . ';' ) : '';
+		$count_class   = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
+
 		$html_share_buttons = '';
 
-		// If the sharethis terms have been accepted.
-		if ( 'Y' === $arr_settings['accepted_sharethis_terms'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Add li if plus.
-			if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-				$html_share_buttons .= '<li class="ssbp-li--fb-save">';
-			}
-
-			// Add facebook save button.
-			$html_share_buttons .= '<span class="fb-save" style="display:inline-block" data-uri="' . esc_attr( $url_current_page ) . '"></span>';
-
-			// Add li if plus.
-			if ( 'Y' === $arr_settings['ssba_new_buttons'] || $arr_settings['bar_call'] ) {
-				$html_share_buttons .= '</li>';
-			}
+		// Add li if plus.
+		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
+			$html_share_buttons .= "<li class='ssbp-li--{$button_name}'>";
 		}
 
+		// Share link.
+		$html_share_buttons .= '<a data-site="' . $button_name . '" class="ssba_' . $button_name . '_share ssba_share_link' . esc_attr( $plus_class ) . '" href="' . $network_url . '" ' . esc_attr( $target . $nofollow ) . ' style="color:' . esc_attr( $network_color ) . '; background-color: ' . esc_attr( $network_color ) . '; height: ' . esc_attr( $arr_settings['ssba_plus_height'] ) . 'px; width: ' . esc_attr( $arr_settings['ssba_plus_width'] ) . 'px; ' . $button_back . '" ' . $print . '>';
+
+		// If image set is not custom.
+		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
+			// Show ssba image.
+			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/' . $button_name . '.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="' . $button_name . '" class="ssba ssba-img" alt="Share on ' . $button_name . '" />';
+		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
+			// Show custom image.
+			$html_share_buttons .= '<img src="' . esc_url( $arr_settings[ 'ssba_custom_' . $button_name ] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="' . $button_name . '" class="ssba ssba-img" alt="Share on ' . $button_name . '" />';
+		}
+
+		if ( 'Y' === $arr_settings['ssba_new_buttons'] || true === isset( $arr_settings['bar_call'] )) {
+			$html_share_buttons .= '<span>';
+			$html_share_buttons .= $icon_code;
+			$html_share_buttons .= '</span>';
+			$html_share_buttons .= '<span class="color-icon">';
+			$html_share_buttons .= $icon_white;
+			$html_share_buttons .= '</span>';
+		}
+
+		// Close href.
+		$html_share_buttons .= '<div title="' . $network_full . '" class="ssbp-text">' . $network_full . '</div>';
+
+		// Get and add share count.
+		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
+			||
+			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
+			||
+			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
+			)
+			&& $boo_show_share_count
+		) ) {
+			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html(
+				$this->get_share_count(
+					$url_current_page,
+					$arr_settings,
+					$button_name
+				)
+			) . '</span>';
+		}
+		// Close href.
+		$html_share_buttons .= '</a>';
+
+		// Add closing li if plus.
+		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
+			$html_share_buttons .= '</li>';
+		}
+
+		// Return share buttons.
 		return $html_share_buttons;
 	}
 
@@ -654,14 +687,16 @@ class Buttons {
 	 *
 	 * @param string $url_current_page Current url.
 	 * @param array  $arr_settings Current ssba settings.
+	 * @param string $button_name The button name.
 	 *
 	 * @return string
 	 */
-	public function get_facebook_share_count( $url_current_page, $arr_settings ) {
-		$cache_key = sprintf(
-			'facebook_sharecount_%s',
+	public function get_share_count( $url_current_page, $arr_settings, $button_name ) {
+		$cache_key       = sprintf(
+			$button_name . '_sharecount_%s',
 			wp_hash( $url_current_page )
 		);
+		$share_count_url = $this->get_share_count_url( $button_name );
 
 		// Get the longer cached value from the Transient API.
 		$long_cached_count = get_transient( "ssba_{$cache_key}" );
@@ -677,7 +712,6 @@ class Buttons {
 			( isset( $arr_settings['bar_sharedcount_enabled'] ) && 'Y' === $arr_settings['bar_sharedcount_enabled'] && isset( $arr_settings['bar_call'] )
 			)
 		) ) {
-
 			$shared_plan = 'Y' !== $arr_settings['ssba_new_buttons'] ? $arr_settings['sharedcount_plan'] : '';
 			$shared_plan = '' === $shared_plan && 'Y' === $arr_settings['ssba_new_buttons'] ? $arr_settings['plus_sharedcount_plan'] : '';
 			$shared_plan = isset( $arr_settings['bar_call'] ) ? $arr_settings['bar_sharedcount_plan'] : '';
@@ -699,8 +733,8 @@ class Buttons {
 			$shared_resp = json_decode( $sharedcount['body'], true );
 			$sharedcount = $long_cached_count;
 
-			if ( isset( $shared_resp['Facebook']['share_count'] ) ) {
-				$sharedcount = (int) $shared_resp['Facebook']['share_count'];
+			if ( isset( $shared_resp[ $button_name ]['share_count'] ) ) {
+				$sharedcount = (int) $shared_resp[ $button_name ]['share_count'];
 				wp_cache_set( $cache_key, $sharedcount, 'ssba', MINUTE_IN_SECONDS * 2 );
 				set_transient( "ssba_{$cache_key}", $sharedcount, DAY_IN_SECONDS );
 			}
@@ -708,1683 +742,276 @@ class Buttons {
 			return $this->ssba_format_number( $sharedcount );
 		} else {
 			// Get results from facebook.
-			$html_facebook_share_details = wp_safe_remote_get(
-				'http://graph.facebook.com/' . $url_current_page,
+			$html_share_details = wp_safe_remote_get(
+				$share_count_url . $url_current_page,
 				array(
 					'timeout' => 6,
 				)
 			);
 
 			// If no error.
-			if ( is_wp_error( $html_facebook_share_details ) ) {
+			if ( is_wp_error( $html_share_details ) ) {
 				return $this->ssba_format_number( $long_cached_count );
 			}
 
 			// Decode and return count.
-			$arr_facebook_share_details = json_decode( $html_facebook_share_details['body'], true );
-			$int_facebook_share_count   = $long_cached_count;
+			$arr_share_details = json_decode( $html_share_details['body'], true );
+			$int_share_count   = $long_cached_count;
 
-			if ( isset( $arr_facebook_share_details['share']['share_count'] ) ) {
-				$int_facebook_share_count = (int) $arr_facebook_share_details['share']['share_count'];
+			if ( isset( $arr_share_details['share']['share_count'] ) ) {
+				$int_facebook_share_count = (int) $arr_share_details['share']['share_count'];
 
-				wp_cache_set( $cache_key, $int_facebook_share_count, 'ssba', MINUTE_IN_SECONDS * 2 );
-				set_transient( "ssba_{$cache_key}", $int_facebook_share_count, DAY_IN_SECONDS );
+				wp_cache_set( $cache_key, $int_share_count, 'ssba', MINUTE_IN_SECONDS * 2 );
+				set_transient( "ssba_{$cache_key}", $int_share_count, DAY_IN_SECONDS );
 			}
 
-			return $this->ssba_format_number( $int_facebook_share_count );
+			return $this->ssba_format_number( $int_share_count );
 		}
 	}
 
 	/**
-	 * Get twitter button.
+	 * Get share count URL.
 	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
+	 * @param string $button Button string name.
 	 *
-	 * @return string
+	 * @return string Share count URL for button.
 	 */
-	public function ssba_twitter( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Twitter';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-twitter ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Format the URL into friendly code.
-		$twitter_share_text = rawurlencode(
-			html_entity_decode(
-				$str_page_title . ' ' . $arr_settings['ssba_twitter_text'],
-				ENT_COMPAT,
-				'UTF-8'
-			)
+	public function get_share_count_url( $button ) {
+		$count_urls = array(
+			'facebook'    => 'http://graph.facebook.com/',
+			'reddit'      => 'http://www.reddit.com/api/info.json?url=',
+			'pinterest'   => 'https://api.pinterest.com/v1/urls/count.json?url=',
+			'linkedin'    => 'http://www.linkedin.com/countserv/count/share?url=',
+			'stumbleupon' => 'http://www.stumbleupon.com/services/1.01/badge.getinfo?url=',
+			'tumblr'      => 'http://api.tumblr.com/v2/share/stats?url=',
+			'yummly'      => 'http://www.yummly.com/services/yum-count?url=',
 		);
 
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--twitter">';
-		}
-
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] && ! empty( $arr_settings['ssba_plus_twitter_text'] ) ) {
-			$twitter_share_text = rawurlencode(
-				html_entity_decode(
-					$str_page_title . ' ' . $arr_settings['ssba_plus_twitter_text'],
-					ENT_COMPAT,
-					'UTF-8'
-				)
-			);
-		}
-
-		if ( isset( $arr_settings['bar_call'] ) && ! empty( $arr_settings['ssba_bar_twitter_text'] ) ) {
-			$twitter_share_text = rawurlencode(
-				html_entity_decode(
-					$str_page_title . ' ' . $arr_settings['ssba_bar_twitter_text'],
-					ENT_COMPAT,
-					'UTF-8'
-				)
-			);
-		}
-
-		// Twitter share link.
-		$html_share_buttons .= '<a data-site="" class="ssba_twitter_share' . esc_attr( $plus_class ) . '" href="http://twitter.com/share?url=' . esc_attr( $url_current_page ) . '&amp;text=' . esc_attr( $twitter_share_text ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/twitter.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Twitter" class="ssba ssba-img" alt="Tweet about this on Twitter" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_twitter'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Twitter" class="ssba ssba-img" alt="Tweet about this on Twitter" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
+		return true === isset( $count_urls[ $button ] ) ? $count_urls[ $button ] : '';
 	}
 
 	/**
-	 * Get google+ button.
+	 * Get button color.
 	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
+	 * @param string $button Button name.
+	 *
+	 * @return string Button color.
+	 */
+	public static function get_button_color( $button ) {
+		$colors = array(
+			'airbnb'          => '#FF5A5F',
+			'amazon'          => '#FFB300',
+			'blogger'         => '#ff8000',
+			'blm'             => '#000000',
+			'buffer'          => '#323B43',
+			'copy'            => '#14682B',
+			'delicious'       => '#205cc0',
+			'diaspora'        => '#000000',
+			'diggit'          => '#262626',
+			'douban'          => '#2E963D',
+			'email'           => '#7d7d7d',
+			'evernote'        => '#5BA525',
+			'facebook'        => '#4267B2',
+			'flattr'          => '#f67c1a',
+			'flickr'          => '#ff0084',
+			'flipboard'       => '#e12828',
+			'get_pocket'      => '#ef4056',
+			'getpocket'       => '#ef4056',
+			'gmail'           => '#D44638',
+			'googlebookmarks' => '#4285F4',
+			'hackernews'      => '#ff4000',
+			'instagram'       => '#bc2a8d',
+			'instapaper'      => '#000000',
+			'iorbix'          => '#364447',
+			'kakao'           => '#F9DD4A',
+			'kindleit'        => '#363C3D',
+			'kooapp'          => '#FACD00',
+			'line'            => '#00c300',
+			'linkedin'        => '#0077b5',
+			'livejournal'     => '#00b0ea',
+			'mailru'          => '#168de2',
+			'medium'          => '#333333',
+			'meneame'         => '#ff6400',
+			'messenger'       => '#448AFF',
+			'odnoklassniki'   => '#d7772d',
+			'outlook'         => '#3070CB',
+			'patreon'         => '#F96854',
+			'pinterest'       => '#CB2027',
+			'print'           => '#222222',
+			'qzone'           => '#F1C40F',
+			'quora'           => '#a62100',
+			'refind'          => '#4286f4',
+			'reddit'          => '#ff4500',
+			'renren'          => '#005baa',
+			'skype'           => '#00aff0',
+			'snapchat'        => '#fffc00',
+			'stumbleupon'     => '#eb4924',
+			'soundcloud'      => '#ff8800',
+			'spotify'         => '#1ED760',
+			'surfingbird'     => '#6dd3ff',
+			'telegram'        => '#0088cc',
+			'tencentqq'       => '#5790F7',
+			'threema'         => '#000000',
+			'tiktok'          => '#25F4EE',
+			'trello'          => '#0D63DE',
+			'tripadvisor'     => '#00AF87',
+			'tumblr'          => '#32506d',
+			'twitch'          => '#6441A4',
+			'twitter'         => '#55acee',
+			'vk'              => '#4c6c91',
+			'viber'           => '#645EA4',
+			'wechat'          => '#4EC034',
+			'weibo'           => '#ff9933',
+			'whatsapp'        => '#25d366',
+			'wordpress'       => '#21759b',
+			'xing'            => '#1a7576',
+			'yelp'            => '#d32323',
+			'youtube'         => '#FF0000',
+			'yahoo_mail'      => '#720e9e',
+			'yummly'          => '#E16120',
+		);
+
+		return isset( $colors[ $button ] ) ? $colors[ $button ] : '';
+	}
+
+	/**
+	 * Get share URL.
+	 *
+	 * @param string $button Button name string.
+	 * @param string $title Title string.
+	 * @param string $description Description string.
+	 * @param string $share_url Share URL string.
+	 * @param string $user_id User ID string.
+	 * @param string $subject Subject string.
+	 * @param string $message Message string.
+	 * @param string $image Image string.
+	 * @param string $username Username string.
+	 * @param string $bookmarklet Bookmarklet string.
+	 * @param string $agg Agg string.
+	 * @param string $popup Popup string.
+	 * @param string $viber Viber string.
 	 *
 	 * @return string
 	 */
-	public function ssba_google( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
+	public static function get_share_url(
+		$button,
+		$title = '',
+		$description = '',
+		$share_url = '',
+		$user_id = '',
+		$subject = '',
+		$message = '',
+		$image = '',
+		$username = '',
+		$bookmarklet = '',
+		$agg = '',
+		$popup = '',
+		$viber = ''
+	) {
+		$share_urls = array(
+			'blogger'         => "https://www.blogger.com/blog-this.g?n={$title}&t={$description}&u={$share_url}",
+			'buffer'          => "https://buffer.com/add?text={$title}&url={$share_url}",
+			'diaspora'        => "https://share.diasporafoundation.org/?title={$title}&url={$share_url}",
+			'delicious'       => "https://del.icio.us/save?provider=sharethis&title={$title}&url={$share_url}&v=5",
+			'diggit'          => "https://digg.com/submit?url={$share_url}",
+			'douban'          => "http://www.douban.com/recommend/?title={$title}&url={$share_url}",
+			'copy'            => $share_url,
+			'email'           => "mailto:?subject={$title}&body={$share_url}",
+			'evernote'        => "http://www.evernote.com/clip.action?title={$title}&url={$share_url}",
+			'facebook'        => "https://www.facebook.com/sharer.php?t={$title}&u={$share_url}",
+			'flipboard'       => "https://share.flipboard.com/bookmarklet/popout?ext=sharethis&title={$title}&url={$share_url}&utm_campaign=widgets&utm_content=hostname&utm_source=sharethis&v=2",
+			'flattr'          => "https://flattr.com/submit/auto?user={$user_id}&title={$title}&url={$share_url}",
+			'get_pocket'      => "https://getpocket.com/edit?url={$share_url}",
+			'gmail'           => "https://mail.google.com/mail/?view=cm&to=&su{$title}&body{$share_url}&bcc=&cc=",
+			'googlebookmarks' => "https://www.google.com/bookmarks/mark?op=edit&bkmk={$share_url}&title{$title}&annotation{$description}",
+			'hackernews'      => "https://news.ycombinator.com/submitlink?u={$share_url}&t={$title}",
+			'instapaper'      => "http://www.instapaper.com/edit?url={$share_url}&title={$title}&description={$description}",
+			'iorbix'          => "https://iorbix.com/m-share?url={$share_url}&title={$title}",
+			'kakao'           => "https://story.kakao.com/share?url={$share_url}",
+			'kindleit'        => "https://pushtokindle.fivefilters.org/send.php?url={$share_url}",
+			'kooapp'          => "https://www.kooapp.com/create?title={$title}&link={$share_url}",
+			'line'            => "https://lineit.line.me/share/ui?url={$share_url}&text{$title}",
+			'linkedin'        => "https://www.linkedin.com/shareArticle?title={$title}&url={$share_url}",
+			'livejournal'     => "https://www.livejournal.com/update.bml?event={$share_url}&subject{$title}",
+			'mailru'          => "https://connect.mail.ru/share?share_url={$share_url}",
+			'meneame'         => "https://meneame.net/submit.php?url={$share_url}",
+			'messenger'       => "https://www.facebook.com/dialog/send?link={$share_url}&app_id=291494419107518&redirect_uri=https://www.sharethis.com",
+			'odnoklassniki'   => "https://connect.ok.ru/dk?st.cmd=WidgetSharePreview&st.shareUrl{$share_url}",
+			'outlook'         => "https://outlook.live.com/mail/deeplink/compose?path=mail inbox&subject={$subject}&body={$message}",
+			'pinterest'       => "https://pinterest.com/pin/create/button/?description={$title}&media={$image}&url={$share_url}",
+			'qzone'           => "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={$share_url}",
+			'print'           => '#',
+			'reddit'          => "https://reddit.com/submit?title={$title}&url={$share_url}",
+			'refind'          => "https://refind.com?url={$share_url}",
+			'renren'          => "http://widget.renren.com/dialog/share?resourceUrl={$share_url}&srcUrl={$share_url}&title={$title}&description={$description}",
+			'skype'           => "https://web.skype.com/share?url={$share_url}&text{$title}",
+			'snapchat'        => "https://snapchat.com/scan?attachmentUrl={$share_url}&utm_source=sharethis",
+			'surfingbird'     => "http://surfingbird.ru/share?url={$share_url}&description={$description}&title={$title}",
+			'telegram'        => "https://t.me/share/url?url={$share_url}&text={$title}&to=",
+			'stumbleupon'     => "http://www.stumbleupon.com/submit?url={$share_url}&title={$title}",
+			'tencentqq'       => "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url={$share_url}&title={$title}&summary={$share_url}&desc={$description}&pics={$image}",
+			'threema'         => "threema://compose?text={$share_url}&id=",
+			'trello'          => "https://trello.com/add-card?mode={$popup}&url={$share_url}&desc={$description}",
+			'tumblr'          => "https://www.tumblr.com/share?t={$title}&u={$share_url}&v=3",
+			'twitter'         => "https://twitter.com/intent/tweet?text={$title}&url={$share_url}&via={$username}",
+			'vk'              => "https://vk.com/share.php?url={$share_url}",
+			'viber'           => "viber://forward?text={$share_url}&url={$viber}",
+			'wechat'          => "https://api.qrserver.com/v1/create-qr-code/?data={$share_url}&size=154x154",
+			'weibo'           => "http://service.weibo.com/share/share.php?title={$title}&url={$share_url}&pic={$image}",
+			'whatsapp'        => "https://web.whatsapp.com/send?text={$share_url}",
+			'wordpress'       => "http://wordpress.com/wp-admin/press-this.php?u={$share_url}&t={$title}&s{$description}i=",
+			'yahoo_mail'      => "http://compose.mail.yahoo.com/?to=&subject={$title}&body={$share_url}",
+			'yummly'          => "https://www.yummly.com/urb/verify?url={$share_url}&title={$title}&urbtype={$bookmarklet}&type={$agg}&vendor=sharethis&image={$image}",
+			'xing'            => "https://www.xing.com/spi/shares/new?url={$share_url}",
+		);
+
+		if (wp_is_mobile()) {
+			$share_urls['whatsapp'] = "whatsapp://send?text={$share_url}";
+			$share_urls['messenger'] = "fb-messenger://share/?link={$share_url}&app_id=291494419107518";
+		}
+
+		return isset( $share_urls[ $button ] ) ? $share_urls[ $button ] : '';
+	}
+
+	/**
+	 * Get button image.
+	 *
+	 * @param string  $button Button name string.
+	 * @param boolean $white Whether to fetch the white version of the icon.
+	 *
+	 * @return string SVG image body.
+	 */
+	public static function get_button_image( $button, $white = false ) {
+		$path = str_replace( '/php', '', plugin_dir_path(__FILE__));
+
+		$button_name = str_replace(
+			array(
+				'getpocket',
+				'get_pocket',
+				'diggit',
+				'_',
+			),
+			array(
+				'pocket',
+				'pocket',
+				'digg',
+				'',
+			),
+			$button
+		);
+
+		$button_file_name = ( false === $white ) ?
+			sprintf( '%s.svg.php', $button_name ) :
+			sprintf( '%s-white.svg.php', $button_name );
+
+		$button_file_path = sprintf( '%simages/networks/%s', $path, $button_file_name );
+
+		if ( true === is_readable( $button_file_path ) ) {
+			ob_start();
+			include $button_file_path;
+			return ob_get_clean();
+		}
+
 		return '';
-	}
-
-	/**
-	 * Get google share count.
-	 *
-	 * @param string $url_current_page The current page url.
-	 *
-	 * @return string
-	 */
-	public function get_google_share_count( $url_current_page ) {
-		return '';
-	}
-
-	/**
-	 * Get diggit button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_diggit( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Digg';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-diggit ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--diggit">';
-		}
-
-		// Diggit share link.
-		$html_share_buttons .= '<a data-site="digg" class="ssba_diggit_share ssba_share_link' . esc_attr( $plus_class ) . '" href="http://www.digg.com/submit?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/diggit.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Digg" class="ssba ssba-img" alt="Digg this" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_diggit'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Digg" class="ssba ssba-img" alt="Digg this" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get line button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_line( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Line';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-line ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--line">';
-		}
-
-		// Line share link.
-		$html_share_buttons .= '<a data-site="line" class="ssba_line_share ssba_share_link' . esc_attr( $plus_class ) . '" href="https://lineit.line.me/share/ui?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/line.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Line" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_line'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Line" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get skype button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_skype( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Line';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-skype ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--skype">';
-		}
-
-		// Skype share link.
-		$html_share_buttons .= '<a data-site="skype" class="ssba_skype_share ssba_share_link' . esc_attr( $plus_class ) . '" href="https://web.skype.com/share?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/line.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Skype" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_skype'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Skype" class="ssba ssba-img" alt="skype" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get Flipboard button.
-	 *
-	 * @param array  $arr_settings        The current ssba settings.
-	 * @param string $url_current_page   The current page url.
-	 * @param string $str_page_title     The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_flipboard( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network  = 'Flipboard';
-
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-flipboard ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--flipboard">';
-		}
-
-		// Flipboard share link.
-		$html_share_buttons .= '<a data-site="flipboard" class="ssba_flipboard_share ssba_share_link'
-							. esc_attr( $plus_class )
-							. '" href="https://share.flipboard.com/bookmarklet/popout?url='
-							. esc_attr( $url_current_page )
-							. '&title='
-							. esc_attr( rawurlencode( $str_page_title ) ) . '" '
-							. esc_attr( $target . $nofollow )
-							. '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/line.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Flipboard" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_flipboard'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Flipboard" class="ssba ssba-img" alt="flipboard" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get Telegram button.
-	 *
-	 * @param array  $arr_settings        The current ssba settings.
-	 * @param string $url_current_page   The current page url.
-	 * @param string $str_page_title     The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_telegram( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network  = 'Telegram';
-
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-telegram ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--telegram">';
-		}
-
-		// Telegram share link.
-		$html_share_buttons .= '<a data-site="telegram" class="ssba_telegram_share ssba_share_link'
-							. esc_attr( $plus_class )
-							. '" href="https://telegram.me/share/url?url='
-							. esc_attr( rawurlencode( $url_current_page ) )
-							. '&text='
-							. esc_attr( rawurlencode( $str_page_title ) ) . '">';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/line.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Telegram" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_telegram'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Telegram" class="ssba ssba-img" alt="Telegram" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-
-	/**
-	 * Get Snapchat button.
-	 *
-	 * @param array  $arr_settings        The current ssba settings.
-	 * @param string $url_current_page   The current page url.
-	 * @param string $str_page_title     The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_snapchat( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network  = 'Snapchat';
-
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-snapchat ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--snapchat">';
-		}
-
-		// Snapchat share link.
-		$html_share_buttons .= '<a data-site="snapchat" class="ssba_snapchat_share ssba_share_link' . esc_attr( $plus_class ) . '" href="https://snapchat.com/scan?attachmentUrl=' . esc_attr( $url_current_page ) . '&utm_source=sharethis" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/line.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Line" class="ssba ssba-img" alt="Snapchat" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_snapchat'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Snapchat" class="ssba ssba-img" alt="Snapchat" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get weibo button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_weibo( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Line';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset( $arr_settings['bar_call'] ) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset( $arr_settings['bar_call'] ) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-weibo ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--weibo">';
-		}
-
-		// Skype share link.
-		$html_share_buttons .= '<a data-site="weibo" class="ssba_weibo_share ssba_share_link' . esc_attr( $plus_class ) . '" href="http://v.t.sina.com.cn/share/share.php?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/weibo.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Weibo" class="ssba ssba-img" alt="Weibo" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_weibo'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Weibo" class="ssba ssba-img" alt="Weibo" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get reddit.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_reddit( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Reddit';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window'] && isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-reddit ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--reddit">';
-		}
-
-		// Reddit share link.
-		$html_share_buttons .= '<a data-site="reddit" class="ssba_reddit_share' . esc_attr( $plus_class ) . '" href="http://reddit.com/submit?url=' . esc_attr( $url_current_page ) . '&amp;title=' . esc_attr( $str_page_title ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/reddit.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Reddit" class="ssba ssba-img" alt="Share on Reddit" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_attr( $arr_settings['ssba_custom_reddit'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Reddit" class="ssba ssba-img" alt="Share on Reddit" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			// Get and display share count.
-			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html( $this->get_reddit_share_count( $url_current_page ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get reddit share count.
-	 *
-	 * @param string $url_current_page The current url.
-	 *
-	 * @return int|string
-	 */
-	public function get_reddit_share_count( $url_current_page ) {
-		// Get results from reddit and return the number of shares.
-		$html_reddit_share_details = wp_safe_remote_get(
-			'http://www.reddit.com/api/info.json?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// Check there was an error.
-		if ( is_wp_error( $html_reddit_share_details ) ) {
-			return 0;
-		}
-
-		// Decode and get share count.
-		$arr_reddit_result      = json_decode( $html_reddit_share_details['body'], true );
-		$int_reddit_share_count = isset( $arr_reddit_result['data']['children']['0']['data']['score'] ) ? $arr_reddit_result['data']['children']['0']['data']['score'] : 0;
-
-		return $int_reddit_share_count ? $this->ssba_format_number( $int_reddit_share_count ) : '0';
-	}
-
-	/**
-	 * Get linkedin button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_linkedin( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Linkedin';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-linkedin ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--linkedin">';
-		}
-
-		// Linkedin share link.
-		$html_share_buttons .= '<a data-site="linkedin" class="ssba_linkedin_share ssba_share_link' . esc_attr( $plus_class ) . '" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/linkedin.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="LinkedIn" class="ssba ssba-img" alt="Share on LinkedIn" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_linkedin'] ) . '" alt="Share on LinkedIn" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="LinkedIn" class="ssba ssba-img" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get linkedin share count. DEPRECATED
-	 *
-	 * @param string $url_current_page The current page url.
-	 *
-	 * @return int|string
-	 */
-	public function get_linkedin_share_count( $url_current_page ) {
-		// Get results from linkedin and return the number of shares.
-		$html_linkedin_share_details = wp_safe_remote_get(
-			'http://www.linkedin.com/countserv/count/share?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// If there was an error.
-		if ( is_wp_error( $html_linkedin_share_details ) ) {
-			return 0;
-		}
-
-		// Extract/decode share count.
-		$html_linkedin_share_details = str_replace( 'IN.Tags.Share.handleCount(', '', $html_linkedin_share_details );
-		$html_linkedin_share_details = str_replace( ');', '', $html_linkedin_share_details );
-		$arr_linkedin_share_details  = json_decode( $html_linkedin_share_details['body'], true );
-		$int_linkedin_share_count    = $arr_linkedin_share_details['count'];
-
-		return $int_linkedin_share_count ? $this->ssba_format_number( $int_linkedin_share_count ) : '0';
-	}
-
-	/**
-	 * Get pinterest button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_pinterest( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Pinterest';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& true === isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-pinterest ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--pinterest">';
-		}
-
-		// If using featured images for Pinteres.
-		if ( 'Y' === $arr_settings['ssba_pinterest_featured'] ) {
-			// If this post has a featured image.
-			if ( has_post_thumbnail( $arr_settings['post_id'] ) ) {
-				// Get the featured image.
-				$url_post_thumb = wp_get_attachment_image_src( get_post_thumbnail_id( $arr_settings['post_id'] ), 'full' );
-				$url_post_thumb = $url_post_thumb[0];
-			} else { // No featured image set.
-				// Use the pinterest default.
-				$url_post_thumb = $arr_settings['ssba_default_pinterest'];
-			}
-
-			// Pinterest share link.
-			$html_share_buttons .= '<a data-site="pinterest-featured" href="http://pinterest.com/pin/create/bookmarklet/?is_video=false&url=' . esc_attr( $url_current_page ) . '&media=' . esc_attr( $url_post_thumb ) . '&description=' . esc_attr( $str_page_title ) . '" class="ssba_pinterest_share ssba_share_link' . esc_attr( $plus_class ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-		} else { // Not using featured images for pinterest.
-			// Use the choice of pinnable images approach.
-			$html_share_buttons .= "<a data-site='pinterest' class='ssba_pinterest_share" . esc_attr( $plus_class ) . "' href='javascript:void((function()%7Bvar%20e=document.createElement(&apos;script&apos;);e.setAttribute(&apos;type&apos;,&apos;text/javascript&apos;);e.setAttribute(&apos;charset&apos;,&apos;UTF-8&apos;);e.setAttribute(&apos;src&apos;,&apos;//assets.pinterest.com/js/pinmarklet.js?r=&apos;+Math.random()*99999999);document.body.appendChild(e)%7D)());'>";
-		}
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/pinterest.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Pinterest" class="ssba ssba-img" alt="Pin on Pinterest" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Pinterest" class="ssba ssba-img" src="' . esc_url( $arr_settings['ssba_custom_pinterest'] ) . '" alt="Pin on Pinterest" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html( $this->get_pinterest_share_count( $url_current_page ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get pinterest share count.
-	 *
-	 * @param string $url_current_page The current page url.
-	 *
-	 * @return int|string
-	 */
-	public function get_pinterest_share_count( $url_current_page ) {
-		// Get results from pinterest.
-		$html_pinterest_share_details = wp_remote_get(
-			'https://api.pinterest.com/v1/urls/count.json?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// Check there was an error.
-		if ( true === is_wp_error( $html_pinterest_share_details ) ) {
-			return 0;
-		}
-
-		$body = wp_remote_retrieve_body( $html_pinterest_share_details );
-
-		if ( false === is_string( $body ) ) {
-			return 0;
-		}
-
-		$body  = str_replace( 'receiveCount(', '', $body );
-		$body  = str_replace( ')', '', $body );
-		$json  = json_decode( $body, true );
-		$count = $json['count'];
-
-		return $count ? $this->ssba_format_number( $count ) : '0';
-	}
-
-	/**
-	 * Get stumbleupon button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_stumbleupon( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'StumbleUpon';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$url                = 'http://www.stumbleupon.com/submit?url=' . esc_attr( $url_current_page ) . '&amp;title=' . esc_attr( $str_page_title );
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-stumbleupon ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--stumbleupon">';
-		}
-
-		// Stumbleupon share link.
-		$html_share_buttons .= '<a data-site="stumbleupon" class="ssba_stumbleupon_share ssba_share_link' . esc_attr( $plus_class ) . '" href="' . esc_url( $url ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/stumbleupon.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="StumbleUpon" class="ssba ssba-img" alt="Share on StumbleUpon" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_stumbleupon'] ) . '" alt="Share on StumbleUpon" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="StumbleUpon" class="ssba ssba-img" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html( $this->get_stumble_upon_share_count( $url_current_page ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get stumbleupon share count.
-	 *
-	 * @param string $url_current_page The current url.
-	 *
-	 * @return int|string
-	 */
-	public function get_stumble_upon_share_count( $url_current_page ) {
-		// Get results from stumbleupon and return the number of shares.
-		$html_stumble_upon_share_details = wp_safe_remote_get(
-			'http://www.stumbleupon.com/services/1.01/badge.getinfo?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// Check there was an error.
-		if ( is_wp_error( $html_stumble_upon_share_details ) ) {
-			return 0;
-		}
-
-		// Decode data.
-		$arr_stumble_upon_result      = json_decode( $html_stumble_upon_share_details['body'], true );
-		$int_stumble_upon_share_count = isset( $arr_stumble_upon_result['result']['views'] ) ? $arr_stumble_upon_result['result']['views'] : 0;
-
-		return $int_stumble_upon_share_count ? $this->ssba_format_number( $int_stumble_upon_share_count ) : '0';
-	}
-
-	/**
-	 * Get email button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_email( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		// Replace ampersands as needed for email link.
-		$email_title        = str_replace( '&', '%26', $str_page_title );
-		$network            = 'email';
-		$url                = 'mailto:?subject=' . $email_title . '&amp;body=' . $arr_settings['ssba_email_message'] . ' ' . $url_current_page;
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-email ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--email">';
-		}
-
-		$url = 'Y' === $arr_settings['ssba_new_buttons'] ? 'mailto:?subject=' . $email_title . '&amp;body=' . $arr_settings['ssba_plus_email_message'] . ' ' . $url_current_page : $url;
-		$url = isset( $arr_settings['bar_call'] ) ? 'mailto:?subject=' . $email_title . '&amp;body=' . $arr_settings['ssba_bar_email_message'] . ' ' . $url_current_page : $url;
-
-		// Email share link.
-		$html_share_buttons .= '<a data-site="email" class="ssba_email_share' . esc_attr( $plus_class ) . '" href="' . esc_url( $url ) . '">';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/email.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Email" class="ssba ssba-img" alt="Email this to someone" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_email'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Email" class="ssba ssba-img" alt="Email to someone" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get flattr button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_flattr( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Flattr';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& false === isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-flattr ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-		$userid             = ! empty( $arr_settings['ssba_flattr_user_id'] ) ? $arr_settings['ssba_flattr_user_id'] : '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--flattr">';
-		}
-
-		// Check for dedicated flattr URL.
-		if ( '' !== $arr_settings['ssba_flattr_url'] ) {
-			// Update url that will be set to specified URL.
-			$url_current_page = $arr_settings['ssba_flattr_url'];
-		}
-
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] ) {
-			$userid           = ! empty( $arr_settings['ssba_plus_flattr_user_id'] ) ? $arr_settings['ssba_plus_flattr_user_id'] : $userid;
-			$url_current_page = ! empty( $arr_settings['ssba_plus_flattr_url'] ) ? $arr_settings['ssba_plus_flattr_url'] : $url_current_page;
-		}
-
-		if ( isset( $arr_settings['bar_call'] ) ) {
-			$userid           = ! empty( $arr_settings['ssba_bar_flattr_user_id'] ) ? $arr_settings['ssba_bar_flattr_user_id'] : $userid;
-			$url_current_page = ! empty( $arr_settings['ssba_bar_flattr_url'] ) ? $arr_settings['ssba_bar_flattr_url'] : $url_current_page;
-		}
-
-		// Flattr share link.
-		$html_share_buttons .= '<a data-site="flattr" class="ssba_flattr_share' . esc_attr( $plus_class ) . '" href="https://flattr.com/submit/auto?user_id=' . esc_attr( $userid ) . '&amp;title=' . esc_attr( $str_page_title ) . '&amp;url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/flattr.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Flattr" class="ssba ssba-img" alt="Flattr the author" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_flattr'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Flattr" class="ssba ssba-img" alt="Flattr the author" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get buffer button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_buffer( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$buffer             = '' !== $arr_settings['ssba_buffer_text'] ? $arr_settings['ssba_buffer_text'] : '';
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Buffer';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-buffer ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--buffer">';
-		}
-
-		// Buffer share link.
-		$html_share_buttons .= '<a data-site="buffer" class="ssba_buffer_share' . esc_attr( $plus_class ) . '" href="https://bufferapp.com/add?url=' . esc_attr( $url_current_page ) . '&amp;text=' . esc_attr( $buffer ) . ' ' . esc_attr( $str_page_title ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/buffer.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Buffer" class="ssba ssba-img" alt="Buffer this page" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_buffer'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Buffer" class="ssba ssba-img" alt="Buffer this page" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get tumblr button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_tumblr( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Tumblr';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-tumblr ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--tumblr">';
-		}
-
-		// Tumblr share link.
-		$html_share_buttons .= '<a data-site="tumblr" class="ssba_tumblr_share' . esc_attr( $plus_class ) . '" href="http://www.tumblr.com/share/link?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/tumblr.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="tumblr" class="ssba ssba-img" alt="Share on Tumblr" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_tumblr'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="tumblr" class="ssba ssba-img" alt="share on Tumblr" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			$html_share_buttons .= '<span class="' . $count_class . '">' . esc_html( $this->get_tumblr_share_count( $url_current_page ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get tumblr share count.
-	 *
-	 * @param string $url_current_page The current url.
-	 *
-	 * @return int|string
-	 */
-	public function get_tumblr_share_count( $url_current_page ) {
-		// Get results from tumblr and return the number of shares.
-		$result = wp_safe_remote_get(
-			'http://api.tumblr.com/v2/share/stats?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// Check there was an error.
-		if ( is_wp_error( $result ) ) {
-			return 0;
-		}
-
-		// Decode data.
-		$array = json_decode( $result['body'], true );
-		$count = isset( $array['response']['note_count'] ) ? $array['response']['note_count'] : 0;
-
-		return ( $count ) ? $count : '0';
-	}
-
-	/**
-	 * Get print button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_print( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-print ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$network            = 'Print';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--print">';
-		}
-
-		$html_share_buttons .= '<a data-site="print" class="ssba_print ssba_share_link ' . esc_attr( $plus_class ) . '" href="#" onclick="window.print()">';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/print.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Print" class="ssba ssba-img" alt="Print this page" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_print'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Print" class="ssba ssba-img" alt="Print this page" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get vk button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_vk( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'VK';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-vk ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--vk">';
-		}
-
-		// Vk share link.
-		$html_share_buttons .= '<a data-site="vk" class="ssba_vk_share ssba_share_link' . esc_attr( $plus_class ) . '" href="http://vkontakte.ru/share.php?url=' . esc_attr( $url_current_page ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/vk.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="VK" class="ssba ssba-img" alt="Share on VK" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_vk'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="VK" class="ssba ssba-img" alt="Share on VK" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get yummly button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_yummly( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Yummly';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-yummly ssbp-btn' : '';
-		$count_class        = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-each-share' : ' ssba_sharecount';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--yummly">';
-		}
-
-		// Yummly share link.
-		$html_share_buttons .= '<a data-site="yummly" class="ssba_yummly_share ssba_share_link' . esc_attr( $plus_class ) . '" href="http://www.yummly.com/urb/verify?url=' . esc_attr( $url_current_page ) . '&title=' . esc_attr( rawurlencode( html_entity_decode( $str_page_title ) ) ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/yummly.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Yummly" class="ssba ssba-img" alt="Share on Yummly" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_yummly'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Yummly" class="ssba ssba-img" alt="Share on Yummly" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// If show share count is set to Y.
-		if ( ( ( 'Y' === $arr_settings['ssba_show_share_count'] && 'Y' !== $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_plus_show_share_count'] && 'Y' === $arr_settings['ssba_new_buttons'] )
-			||
-			( 'Y' === $arr_settings['ssba_bar_show_share_count'] && isset( $arr_settings['bar_call'] )
-			)
-			&& $boo_show_share_count
-		) ) {
-			$html_share_buttons .= '<span class="' . esc_attr( $count_class ) . '">' . esc_html( $this->get_yummly_share_count( $url_current_page ) ) . '</span>';
-		}
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get yummly share count.
-	 *
-	 * @param string $url_current_page the current page url.
-	 *
-	 * @return int|string
-	 */
-	public function get_yummly_share_count( $url_current_page ) {
-		// Get results from yummly and return the number of shares.
-		$result = wp_safe_remote_get(
-			'http://www.yummly.com/services/yum-count?url=' . $url_current_page,
-			array(
-				'timeout' => 6,
-			)
-		);
-
-		// Check there was an error.
-		if ( is_wp_error( $result ) ) {
-			return 0;
-		}
-
-		// Decode data.
-		$array = json_decode( $result['body'], true );
-		$count = isset( $array['count'] ) ? $array['count'] : '0';
-
-		// Return.
-		return $count;
-	}
-
-	/**
-	 * Get whatsapp button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_whatsapp( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		if ( ! wp_is_mobile() ) {
-			return;
-		}
-
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Whatsapp';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-whatsapp ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--whatsapp">';
-		}
-
-		// Whatsapp share link.
-		$html_share_buttons .= '<a data-site="whatsapp" class="ssba_whatsapp_share ssba_share_link' . esc_attr( $plus_class ) . '" href="whatsapp://send?text=' . rawurlencode( $url_current_page . ' ' . $str_page_title ) . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/whatsapp.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Whatsapp" class="ssba ssba-img" alt="Share on Whatsapp" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_whatsapp'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Whatsapp" class="ssba ssba-img" alt="Share on Whatsapp" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
-	}
-
-	/**
-	 * Get xing button.
-	 *
-	 * @param array  $arr_settings The current ssba settings.
-	 * @param string $url_current_page The current page url.
-	 * @param string $str_page_title The page title.
-	 * @param bool   $boo_show_share_count Show share count or not.
-	 *
-	 * @return string
-	 */
-	public function ssba_xing( $arr_settings, $url_current_page, $str_page_title, $boo_show_share_count ) {
-		$nofollow           = 'Y' === $arr_settings['ssba_rel_nofollow'] ? ' rel="nofollow"' : '';
-		$network            = 'Xing';
-		$target             =
-			( 'Y' === $arr_settings['ssba_plus_share_new_window']
-			&& 'Y' === $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_share_new_window']
-			&& 'Y' !== $arr_settings['ssba_new_buttons']
-			&& ! isset(
-				$arr_settings['bar_call']
-			) )
-			||
-			( 'Y' === $arr_settings['ssba_bar_share_new_window']
-			&& isset(
-				$arr_settings['bar_call']
-			) ) ? ' target="_blank" ' : '';
-		$plus_class         = 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ? ' ssbp-xing ssbp-btn' : '';
-		$html_share_buttons = '';
-
-		// Add li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '<li class="ssbp-li--xing">';
-		}
-
-		// Xing share link.
-		$html_share_buttons .= '<a data-site="xing" class="ssba_xing_share ssba_share_link' . esc_attr( $plus_class ) . '" href="https://www.xing.com/spi/shares/new?url=' . $url_current_page . '" ' . esc_attr( $target . $nofollow ) . '>';
-
-		// If image set is not custom.
-		if ( 'custom' !== $arr_settings['ssba_image_set'] && 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) {
-			// Show ssba image.
-			$html_share_buttons .= '<img src="' . plugins_url() . '/simple-share-buttons-adder/buttons/' . esc_attr( $arr_settings['ssba_image_set'] ) . '/xing.png" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Xing" class="ssba ssba-img" alt="Share on Xing" />';
-		} elseif ( 'Y' !== $arr_settings['ssba_new_buttons'] && ! isset( $arr_settings['bar_call'] ) ) { // If using custom images.
-			// Show custom image.
-			$html_share_buttons .= '<img src="' . esc_url( $arr_settings['ssba_custom_xing'] ) . '" style="width: ' . esc_html( $arr_settings['ssba_size'] ) . 'px;" title="Xing" class="ssba ssba-img" alt="Share on Xing" />';
-		}
-
-		// Close href.
-		$html_share_buttons .= '<div title="' . $network . '" class="ssbp-text">' . $network . '</div>';
-
-		// Close href.
-		$html_share_buttons .= '</a>';
-
-		// Add closing li if plus.
-		if ( 'Y' === $arr_settings['ssba_new_buttons'] || isset( $arr_settings['bar_call'] ) ) {
-			$html_share_buttons .= '</li>';
-		}
-
-		// Return share buttons.
-		return $html_share_buttons;
 	}
 }

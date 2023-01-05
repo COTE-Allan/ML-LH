@@ -1,10 +1,10 @@
 === Simple Share Buttons Adder ===
-Contributors: sharethis, scottstorebloom, scottmweaver, surlyrightclick, DavidoffNeal
-Tags: share buttons, social buttons, facebook, twitter, google+, share, share links, stumble upon, linkedin, pinterest, yummly, vk, flattr
+Contributors: sharethis, scottstorebloom, scottmweaver
+Tags: share buttons, social buttons, facebook, twitter, google+, share, share links, stumble upon, linkedin, pinterest, yummly, vk, flattr, viber
 Requires at least: 5.9
-Tested up to: 6.0.3
-Stable tag: 8.3.2
-Version: 8.3.2
+Tested up to: 6.1.1
+Stable tag: 8.4.4
+Version: 8.4.4
 License: GPLv2 or later
 
 A simple plugin that enables you to add share buttons to all of your posts and/or pages.
@@ -66,6 +66,27 @@ Please visit the <a href="https://wordpress.org/support/plugin/simple-share-butt
 4. An example of the buttons shown below page content using the "Ribbon" theme.
 
 == Changelog ==
+
+= 8.4.4 =
+* Fix icon colors.
+* Fix email subject/message.
+* Fix whatsapp and messenger mobile app.
+* Fix block icon in editor size.
+* Fix shortcode.
+* Fix nofollow option.
+* Fix button alignment issue.
+
+= 8.4.2 =
+* Change image pull.
+
+= 8.4.1 =
+* Fix release errors.
+
+= 8.4.0 =
+* Test with WordPress 6.1.1.
+* Add new networks.
+* Hide classic tab.
+* Fix bugs in admin preview.
 
 = 8.3.2 =
 * Add source.

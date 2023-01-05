@@ -100,12 +100,12 @@ class SBI_Support {
 		);
 
 		wp_enqueue_script(
-			'vue-main',
-			'https://cdn.jsdelivr.net/npm/vue@2.6.12',
-			null,
-			'2.6.12',
-			true
-		);
+            'sb-vue',
+            SBI_PLUGIN_URL . 'js/vue.min.js',
+            null,
+            '2.6.12',
+            true
+        );
 
 		wp_enqueue_script(
 			'support-app',

@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon, am, smub
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 4.1
 Tested up to: 6.0
-Stable tag: 6.0.8
+Stable tag: 6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -331,6 +331,12 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 6.1 =
+* New: Added the ability to filter "Reels" posts in feeds. When customizing a feed and using the moderation settings you can now choose to show or hide Instagram "Reels" posts.
+* New: Add a header image and bio text for personal sources. Go to the settings page and click on the gear icon to add this to an existing source.
+* New: Added support for Instagram "Reels" oEmbeds. Use WordPress' embed block to create rich oEmbed links in blog posts and pages.
+* Tweak: Vue.js code is now loaded from a local file shipped with the plugin rather than an external CDN for use with the customizer in the admin area.
+
 = 6.0.8 =
 * Tweak: Added a workaround to retrieve missing images if none were returned by Instagram for a post.
 * Fix: Custom colors assigned to the Follow button would not apply when using a custom color palette.

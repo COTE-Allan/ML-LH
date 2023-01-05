@@ -122,23 +122,23 @@ class Plugin extends Plugin_Base {
 		);
 		wp_register_script(
 			"{$this->assets_prefix}-bootstrap-js",
-			"{$this->dir_url}js/vendor/bootstrap.js",
+			"{$this->dir_url}js/extras/bootstrap.js",
 			array(),
-			filemtime( "{$this->dir_path}js/vendor/bootstrap.js" ),
+			filemtime( "{$this->dir_path}js/extras/bootstrap.js" ),
 			false
 		);
 		wp_register_script(
 			"{$this->assets_prefix}-colorpicker",
-			"{$this->dir_url}js/vendor/colorpicker.js",
+			"{$this->dir_url}js/extras/colorpicker.js",
 			array(),
-			filemtime( "{$this->dir_path}js/vendor/colorpicker.js" ),
+			filemtime( "{$this->dir_path}js/extras/colorpicker.js" ),
 			false
 		);
 		wp_register_script(
 			"{$this->assets_prefix}-switch",
-			"{$this->dir_url}js/vendor/switch.js",
+			"{$this->dir_url}js/extras/switch.js",
 			array(),
-			filemtime( "{$this->dir_path}js/vendor/switch.js" ),
+			filemtime( "{$this->dir_path}js/extras/switch.js" ),
 			false
 		);
 

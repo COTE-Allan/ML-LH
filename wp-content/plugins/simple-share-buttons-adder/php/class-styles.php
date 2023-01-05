@@ -277,14 +277,14 @@ class Styles {
 			// Plus styles.
 			$plus_height       = '' !== $arr_settings['ssba_plus_height'] ? 'height: ' . $arr_settings['ssba_plus_height'] . 'px!important;' : 'height: 48px!important;';
 			$plus_width        = '' !== $arr_settings['ssba_plus_width'] ? 'width: ' . $arr_settings['ssba_plus_width'] . 'px!important;' : 'width: 48px!important;';
-			$plus_icon         = '' !== $arr_settings['ssba_plus_icon_size'] ? 'line-' . $plus_height . '; font-size: ' . $arr_settings['ssba_plus_icon_size'] . 'px;' : 'line-' . $plus_height . '; font-size: 18px;';
+			$plus_icon         = '' !== $arr_settings['ssba_plus_icon_size'] ? 'line-' . $plus_height . '; width: ' . $arr_settings['ssba_plus_icon_size'] . 'px; height: ' . $arr_settings['ssba_plus_icon_size'] . 'px;' : 'line-' . $plus_height . '; font-size: 18px;';
 			$plus_margin       = '' !== $arr_settings['ssba_plus_margin'] ? 'margin-left: ' . $arr_settings['ssba_plus_margin'] . 'px!important;' : 'margin-left: 7px!important;';
 			$plus_font_style   = '' !== $arr_settings['ssba_plus_font_family'] ? 'font-family: ' . $arr_settings['ssba_plus_font_family'] . ';' : 'font-family: inherit;';
 			$plus_font_size    = '' !== $arr_settings['ssba_plus_font_size'] ? 'font-size: ' . $arr_settings['ssba_plus_font_size'] . 'px;' : 'font-size: 12px;';
 			$plus_font_weight  = '' !== $arr_settings['ssba_plus_font_weight'] ? 'font-weight: ' . $arr_settings['ssba_plus_font_weight'] . ';' : 'font-weight: normal;';
 			$plus_font_color   = '' !== $arr_settings['ssba_plus_font_color'] ? 'color: ' . $arr_settings['ssba_plus_font_color'] . '!important;' : '';
-			$plus_icon_color   = '' !== $arr_settings['ssba_plus_icon_color'] ? 'color: ' . $arr_settings['ssba_plus_icon_color'] . '!important;' : '';
-			$plus_icon_hover   = '' !== $arr_settings['ssba_plus_icon_hover_color'] ? 'color: ' . $arr_settings['ssba_plus_icon_hover_color'] . '!important;' : '';
+			$plus_icon_color   = '' !== $arr_settings['ssba_plus_icon_color'] ? 'fill: ' . $arr_settings['ssba_plus_icon_color'] : '';
+			$plus_icon_hover   = '' !== $arr_settings['ssba_plus_icon_hover_color'] ? 'fill: ' . $arr_settings['ssba_plus_icon_hover_color'] . '!important;' : '';
 			$plus_button_color = '' !== $arr_settings['ssba_plus_button_color'] ? 'background-color: ' . $arr_settings['ssba_plus_button_color'] . '!important;' : '';
 			$plus_button_hover = '' !== $arr_settings['ssba_plus_button_hover_color'] ? 'background-color: ' . $arr_settings['ssba_plus_button_hover_color'] . '!important;' : '';
 
@@ -309,11 +309,11 @@ class Styles {
 				esc_html( $plus_button_hover ) . '
 					}
 
-					.ssbp-list li a::before {' .
+					.ssbp-list li a svg, .ssbp-list li a.ssbp-douban span:not(.color-icon) svg, .ssbp-list li a svg path, .ssbp-list li a.ssbp-surfingbird span:not(.color-icon) svg polygon {' .
 				esc_html( $plus_icon ) .
 				esc_html( $plus_icon_color ) .
 				'}
-					.ssbp-list li a:hover::before {' .
+					.ssbp-list li a:hover svg, .ssbp-list li a:hover span:not(.color-icon) svg, .ssbp-list li a.ssbp-douban:hover span:not(.color-icon) svg path, .ssbp-list li a.ssbp-surfingbird:hover svg polygon {' .
 				esc_html( $plus_icon_hover ) .
 				'}
 					.ssbp-list li {
@@ -340,12 +340,12 @@ class Styles {
 			// Share bar styles.
 			$bar_height       = $this->class_ssba->get_bar_height_style();
 			$bar_width        = $this->class_ssba->get_bar_width_style();
-			$bar_icon         = '' !== $arr_settings['ssba_bar_icon_size'] ? 'line-' . $bar_height . '; font-size: ' . $arr_settings['ssba_bar_icon_size'] . 'px;' : 'line-' . $bar_height . '; font-size: 18px;';
+			$bar_icon         = '' !== $arr_settings['ssba_bar_icon_size'] ? 'line-' . $bar_height . '; width: ' . $arr_settings['ssba_bar_icon_size'] . 'px; height: ' . $arr_settings['ssba_bar_icon_size'] . 'px;' : 'line-' . $bar_height . '; font-size: 18px;';
 			$bar_margin       = '' !== $arr_settings['ssba_bar_margin'] ? 'margin: ' . $arr_settings['ssba_bar_margin'] . 'px 0!important;' : '';
 			$bar_button_color = '' !== $arr_settings['ssba_bar_button_color'] ? 'background-color: ' . $arr_settings['ssba_bar_button_color'] . '!important;' : '';
 			$bar_button_hover = '' !== $arr_settings['ssba_bar_button_hover_color'] ? 'background-color: ' . $arr_settings['ssba_bar_button_hover_color'] . '!important;' : '';
-			$bar_icon_color   = '' !== $arr_settings['ssba_bar_icon_color'] ? 'color: ' . $arr_settings['ssba_bar_icon_color'] . '!important;' : '';
-			$bar_icon_hover   = '' !== $arr_settings['ssba_bar_icon_hover_color'] ? 'color: ' . $arr_settings['ssba_bar_icon_hover_color'] . '!important;' : '';
+			$bar_icon_color   = '' !== $arr_settings['ssba_bar_icon_color'] ? 'fill: ' . $arr_settings['ssba_bar_icon_color'] . ';' : '';
+			$bar_icon_hover   = '' !== $arr_settings['ssba_bar_icon_hover_color'] ? 'fill: ' . $arr_settings['ssba_bar_icon_hover_color'] . '!important;' : '';
 			$bar_break_point  = 'Y' !== $arr_settings['ssba_bar_mobile'] ? 'display: none;' : 'display: block;';
 			$the_breakpoint   = '' === $arr_settings['ssba_mobile_breakpoint'] || null === $arr_settings['ssba_mobile_breakpoint'] ? '750' : $arr_settings['ssba_mobile_breakpoint'];
 
@@ -362,11 +362,13 @@ class Styles {
 								esc_html( $bar_button_hover ) . '
 				}
 
-				#ssba-bar-2 .ssbp-bar-list li a::before {' .
+				#ssba-bar-2 .ssbp-bar-list li a svg,
+				 #ssba-bar-2 .ssbp-bar-list li a svg path, .ssbp-bar-list li a.ssbp-surfingbird span:not(.color-icon) svg polygon {' .
 								esc_html( $bar_icon ) .
 								esc_html( $bar_icon_color ) .
 								'}
-				#ssba-bar-2 .ssbp-bar-list li a:hover::before {' .
+				#ssba-bar-2 .ssbp-bar-list li a:hover svg,
+				 #ssba-bar-2 .ssbp-bar-list li a:hover svg path, .ssbp-bar-list li a.ssbp-surfingbird span:not(.color-icon) svg polygon {' .
 								esc_html( $bar_icon_hover ) .
 								'}
 				#ssba-bar-2 .ssbp-bar-list li {

@@ -4,8 +4,6 @@ namespace Nextend\Framework\Misc;
 
 use Nextend\Framework\Notification\Notification;
 use Nextend\Framework\Request\Request;
-use Nextend\Framework\View\Html;
-use Nextend\SmartSlider3\Application\ApplicationSmartSlider3;
 
 class HttpClient {
 
@@ -14,7 +12,9 @@ class HttpClient {
     }
 
     public static function get($url, $options = array()) {
-        $request = wp_remote_get($url, array('user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'));
+        $options = array_merge(array('user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36'), $options);
+
+        $request = wp_remote_get($url, $options);
         if (is_wp_error($request)) {
             foreach ($request->get_error_messages() as $errorMessage) {
                 Notification::error($errorMessage);

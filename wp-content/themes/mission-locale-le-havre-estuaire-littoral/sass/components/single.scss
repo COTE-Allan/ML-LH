@@ -1,0 +1,155 @@
+/* Single
+--------------------------------------------- */
+.site-single {
+    padding: 30px 15px;
+
+    @include for-desktop-up {
+        width: 80vw;
+        @include quadruple-padding(50px, 50px, 100px, 150px);
+
+    }
+
+    @include for-desktop-up {
+        & .post-thumbnail {
+            width: 50%;
+        }
+
+    }
+
+    &-banner {
+        border-bottom: 4px $orange solid;
+        text-align: center;
+
+        &-content {
+            z-index: 1;
+            position: absolute;
+            height: 100px;
+            width: 100%;
+            @include make-it-flex(center, center, column, column);
+
+            @include for-desktop-up {
+                height: 200px;
+            }
+
+            h1 {
+                width: 90%;
+                font-size: 18px;
+                font-weight: 600;
+                color: white;
+                margin: 0;
+
+                @include for-tablet-landscape-up {
+                    font-size: 30px;
+                }
+
+                @include for-desktop-up {
+                    font-size: 40px;
+                }
+            }
+
+
+            a {
+                color: white;
+                text-decoration: none;
+                margin: 0 5px;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            &-details {
+                color: white;
+                text-transform: uppercase;
+
+                @include for-desktop-up {
+                    display: flex;
+
+                }
+            }
+        }
+
+        &-background {
+            height: 100px;
+            overflow: hidden;
+
+            @include for-desktop-up {
+                height: 200px;
+            }
+
+            & img {
+                object-fit: cover;
+                filter: blur(5px);
+                height: 100%;
+                width: 100%;
+                transform: scale(1.1);
+
+            }
+        }
+    }
+
+    & .ssba {
+        border-top: $orange solid 5px;
+        padding: 10px;
+        margin: 20px 0;
+    }
+
+    & p {
+        margin: 0.5em 0;
+    }
+
+    & h2 {
+        margin-bottom: 0.2em;
+    }
+
+    & .wp-block-media-text__content {
+        padding: 0;
+
+        & p {
+            margin: 0.2em 0;
+        }
+    }
+
+    & .nav-links {
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+        margin-top: 10px;
+
+        @include for-desktop-up {
+            flex-direction: row;
+        }
+
+        & div {
+            margin-top: 2px;
+            text-align: start;
+
+            @include for-desktop-up {
+                &.nav-next {
+                    text-align: end;
+                }
+            }
+        }
+
+        & a {
+
+            @include text-overflow(ellipsis);
+
+            width: 300px;
+            display: inline-block;
+            @include button($purple, white);
+        }
+    }
+
+    & input[type=submit] {
+        width: 100%;
+        margin: 10px 0;
+        border-radius: 0%;
+        @include button($purple, white);
+
+        @include for-tablet-landscape-up {
+            width: 25%;
+            padding: 10px;
+        }
+    }
+}

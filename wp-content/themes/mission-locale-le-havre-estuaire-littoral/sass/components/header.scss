@@ -1,0 +1,211 @@
+/* Header
+--------------------------------------------- */
+.site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 4;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 5px 10px;
+
+    @include for-desktop-up {
+
+        @include make-it-flex(space-between, center, row, row);
+        font-size: 17px;
+    }
+
+    & span.dashicons {
+        @include for-desktop-up {
+            width: 100%;
+            height: 100%;
+        }
+
+        font-size: 40px;
+        color: rgba(0, 0, 0, 0.6);
+    }
+
+    & .site-branding {
+        @include make-it-flex(space-between, center, row, row);
+
+        padding: 10px 5px;
+
+        & img {
+            width: 40vw;
+
+            @include for-tablet-portrait-up {
+                width: 25vw;
+            }
+
+            @include for-tablet-landscape-up {
+                width: 15vw
+            }
+
+            @include hovering-scale(1.1);
+
+        }
+
+        & span {
+            padding-right: 10px;
+        }
+
+        @include for-desktop-up {
+            padding-left: 10px;
+
+            & img {
+                width: 15vw;
+            }
+        }
+    }
+
+    & a {
+        color: black;
+        text-decoration: none;
+
+
+    }
+
+    &-main {
+        @include make-it-flex(initial, initial, column, row);
+    }
+
+    &-nav {
+        padding: 10px 20px;
+
+        @include for-desktop-up {
+            @include make-it-flex(initial, center, row, row);
+        }
+
+        & .menu-item {
+            margin: 0 10px;
+
+            &:hover {
+                &>a {
+                    color: $red;
+                }
+            }
+        }
+    }
+
+    &-menu {
+        width: 100vw;
+        flex-direction: column-reverse;
+
+        @include for-desktop-up {
+            display: flex;
+            flex-direction: row;
+            width: 45vw;
+        }
+
+
+
+        & .menu-item {
+            @include make-it-flex(center, center, row, row);
+            flex: 1 1 0px;
+            height: 100px;
+
+            & a {
+                color: white;
+                transition: transform 100ms ease-in-out;
+                font-size: 18px;
+                @include make-it-flex(center, initial, column, column);
+                width: 100%;
+                height: 100%;
+                text-align: center;
+
+                & i {
+                    margin: 0 !important;
+                }
+
+                @include hovering-scale(1.1);
+            }
+
+            @include five-bg-colors($green, $blue, $red, $orange, $purple);
+        }
+
+        & .search-form {
+            background-color: $orange;
+            @include make-it-flex(center, center, row, row);
+            padding: 20px 0;
+
+            @include for-desktop-up {
+                width: 100px;
+
+                &.open {
+                    width: auto;
+                    flex: 0.8 1 0px;
+
+                    & .close-icon {
+                        display: none;
+                    }
+
+                    & input.search-field {
+                        display: block;
+                        width: 70%;
+                    }
+
+                    & button.search-submit {
+                        display: block;
+                    }
+                }
+            }
+
+            & .close-icon {
+                @include make-it-flex(center, center, row, row);
+                @include hovering-scale-rotate(1.1, -10deg);
+
+            }
+
+            & input.search-field {
+                @include define-colors(transparent, white);
+                border: none;
+                border-bottom: rgba(0, 0, 0, 0.6) 3px solid;
+                border-radius: 0;
+                margin-right: 10px;
+                width: 80%;
+
+                @include for-desktop-up {
+                    display: none;
+                }
+
+                &:focus {
+                    outline: none;
+                }
+
+                &::placeholder {
+                    color: rgba(255, 255, 255, 0.6);
+                }
+            }
+
+            & button.search-submit {
+                background-color: transparent;
+                border: none;
+                padding: 0;
+                display: none;
+                width: 40px;
+                height: 40px;
+                @include hovering-scale-rotate(1.1, -10deg);
+            }
+        }
+
+        &>div {
+            flex: 1 1 0px;
+        }
+    }
+
+    .menu-main-container ul {
+        display: flex;
+    }
+
+    .mobile-open-menu {
+        width: fit-content;
+        height: 100%;
+
+        @include for-desktop-up {
+            display: none;
+        }
+    }
+
+    .main-navigation.open {
+        display: flex;
+    }
+}

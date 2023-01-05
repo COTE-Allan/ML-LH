@@ -108,16 +108,6 @@
 	font-size: 12px;
 }
 
-.ssbp--theme-4 .ssbp-list li {
-	margin-left: 5px;
-}
-
-.ssbp--theme-4 .ssbp-btn {
-	width: 2.5em;
-	height: 2.5em;
-	line-height: 2.5em;
-}
-
 .ssbp-btn:before {
 	font-size: 18px;
 }

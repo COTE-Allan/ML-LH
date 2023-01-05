@@ -31,14 +31,12 @@
         <header id="masthead" class="site-header">
 
             <div class="site-header-main">
-                <!-- .site-branding -->
                 <div class="site-branding">
                     <?php
                     the_custom_logo();
                     ?>
                     <span class="dashicons dashicons-menu-alt3 mobile-open-menu"></span>
                 </div>
-                <!-- #site-navigation -->
                 <nav class="main-navigation site-header-nav">
                     <?php
                     wp_nav_menu(
@@ -61,7 +59,7 @@
                 );
                 ?>
             </div>
-        </header><!-- #masthead -->
+        </header>
 
         <script>
         let burger = document.querySelector(".mobile-open-menu");

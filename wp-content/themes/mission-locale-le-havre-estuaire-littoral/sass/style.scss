@@ -1,5 +1,6 @@
-// Ajout du fichier contenant les variables
+// Imports essentiels
 @import "variables.scss";
+@import "mixins.scss";
 
 /*!
 Theme Name: Mission Locale Le Havre Estuaire Littoral
@@ -26,14 +27,16 @@ Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
 
 
+
+
 /*--------------------------------------------------------------
 # Parent Theme
 --------------------------------------------------------------*/
 
-@import "parent.scss";
+@import "components/parent.scss";
 
 /*--------------------------------------------------------------
 # Children Theme
 --------------------------------------------------------------*/
 
-@import "theme.scss";
+@import "children.scss";

@@ -1,0 +1,191 @@
+// Agrandir la taille d'un icône en ::before (ex: dashicons)
+@mixin hwf($s) {
+    height: $s;
+    width: $s;
+    font-size: $s;
+}
+
+// Agrandir l'objet par rapport au scale indiqué en paramètre.
+@mixin hovering-scale($v) {
+    transition: transform 100ms ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale($v);
+    }
+}
+
+// Agrandir et tourner l'objet par rapport au scale et rotate indiqué en paramètre.
+@mixin hovering-scale-rotate($v, $d) {
+    transition: transform 100ms ease-in-out;
+
+    &:hover {
+        transform: scale($v) rotate($d);
+    }
+}
+
+// Je génère un flex basé sur les paramètres indiqués.
+@mixin make-it-flex($justify, $align, $mobile-direction, $desktop-direction) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $mobile-direction;
+
+    @include for-desktop-up {
+        flex-direction: $desktop-direction;
+    }
+}
+
+// Génère un text overflow
+@mixin text-overflow($overflow-type) {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: $overflow-type;
+}
+
+// Générer un bouton avec les couleurs indiqués.
+@mixin button($color, $txt-color) {
+    background-color: $color;
+    color: $txt-color;
+    transition: background-color 200ms ease-in-out;
+    padding: 10px;
+    text-decoration: none;
+
+    &:hover {
+        background-color: darken($color: $color, $amount: 5%);
+    }
+}
+
+@mixin define-colors($bg, $txt) {
+    background-color: $bg;
+    color: $txt;
+}
+
+// Looping beetween five colors for background
+@mixin five-bg-colors($c1, $c2, $c3, $c4, $c5) {
+
+    &:nth-child(0n+1) {
+        background-color: $c1;
+    }
+
+    &:nth-child(0n+2) {
+        background-color: $c2;
+    }
+
+    &:nth-child(0n+3) {
+        background-color: $c3;
+    }
+
+    &:nth-child(0n+4) {
+        background-color: $c4;
+    }
+
+    &:nth-child(0n+5) {
+        background-color: $c5;
+    }
+}
+
+// Looping beetween five colors jobs cards
+@mixin five-cards-colors($c1, $c2, $c3, $c4, $c5) {
+
+    &:nth-child(5n+0) {
+        & .awsm-job-item {
+            border: $c1 2px solid;
+            color: $c1;
+        }
+
+    }
+
+    &:nth-child(5n+1) {
+        & .awsm-job-item {
+            border: $c2 2px solid;
+            color: $c2;
+        }
+    }
+
+    &:nth-child(5n+2) {
+        & .awsm-job-item {
+            border: $c3 2px solid;
+            color: $c3;
+        }
+    }
+
+    &:nth-child(5n+3) {
+        & .awsm-job-item {
+            border: $c4 2px solid;
+            color: $c4;
+        }
+    }
+
+    &:nth-child(5n+4) {
+        & .awsm-job-item {
+            border: $c5 2px solid;
+            color: $c5;
+        }
+    }
+}
+
+// Alternate beetween two colors
+@mixin two-bg-colors($c1, $c2) {
+    &:nth-child(even) {
+        background-color: $c1;
+    }
+
+    &:nth-child(odd) {
+        background-color: $c2;
+    }
+}
+
+
+// Manage each padding individualy
+@mixin quadruple-padding($top, $bottom, $left, $right) {
+    padding-top: $top;
+    padding-bottom: $bottom;
+    padding-left: $left;
+    padding-right: $right;
+}
+
+// Manage each margin individualy
+@mixin quadruple-margin($top, $bottom, $left, $right) {
+    margin-top: $top;
+    margin-bottom: $bottom;
+    margin-left: $left;
+    margin-right: $right;
+}
+
+// Responsives mixins, choose one or multiple if you need to adapt things
+@mixin for-phone-only {
+    @media (max-width: 599px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-or-below {
+    @media (max-width: 900px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-portrait-up {
+    @media (min-width: 600px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-landscape-up {
+    @media (min-width: 900px) {
+        @content;
+    }
+}
+
+@mixin for-desktop-up {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+@mixin for-big-desktop-up {
+    @media (min-width: 1800px) {
+        @content;
+    }
+}

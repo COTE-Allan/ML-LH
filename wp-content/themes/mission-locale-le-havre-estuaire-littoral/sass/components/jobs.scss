@@ -1,0 +1,50 @@
+/* Jobs
+--------------------------------------------- */
+.awsm-job-wrap {
+    & a {
+        color: $purple;
+    }
+
+    & .awsm-lists {
+        border: none;
+
+    }
+
+    // & .awsm-job-listing-item {
+    //     transition: background-color 150ms ease-in-out;
+
+    //     @include two-bg-colors(white, $grey);
+
+    //     &:hover {
+    //         background-color: darken($grey, 5%);
+    //     }
+
+    //     & .awsm-job-item {
+    //         border: none;
+    //         background-color: transparent;
+    //     }
+    // }
+    & .awsm-job-listing-item {
+        @include five-cards-colors($purple, $red, $blue, $green, $orange);
+
+    }
+
+    & .awsm-job-more-container {
+        margin-top: 20px;
+    }
+
+    & .awsm-jobs-pagination {
+        & .awsm-load-more {
+            background-color: $purple;
+            color: white;
+        }
+    }
+
+    & .awsm-filter-wrap {
+
+        & input,
+        .awsm-filter-toggle {
+            border: 2px transparentize($color: $orange, $amount: 0.5) solid;
+        }
+    }
+}

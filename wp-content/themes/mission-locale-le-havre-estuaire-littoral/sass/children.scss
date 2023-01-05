@@ -1,0 +1,113 @@
+/* Ajout de la font Akrobat */
+@import url('http://fonts.cdnfonts.com/css/akrobat');
+
+
+/* General
+--------------------------------------------- */
+.site {
+    font-family: 'Akrobat', sans-serif;
+}
+
+.site-content {
+    display: flex;
+
+
+
+}
+
+
+@import "components/header.scss";
+
+@import "components/footer.scss";
+
+@import "components/jobs.scss";
+
+@import "components/search.scss";
+
+@import "components/sidebar.scss";
+
+@import "components/single.scss";
+
+@import "components/homepage.scss";
+
+@import "components/forms.scss";
+
+
+/* Autres
+--------------------------------------------- */
+// Fil instagram
+#sb_instagram {
+    background-color: $red;
+
+    & .sbi_photo_wrap {
+        border: 3px solid white;
+
+        @include for-desktop-up {
+            border: 5px solid white;
+        }
+    }
+}
+
+// Fil d'ariane (Breadcrumb)
+#breadcrumbs {
+    background-color: $grey;
+    margin: 0;
+    padding: 15px 15px;
+
+    a {
+        color: black;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    strong {
+        color: $red;
+    }
+}
+
+// Page 404
+.error-404 {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    & .page-content {
+        padding: 10px;
+    }
+
+
+    & form {
+        display: flex;
+        justify-content: center;
+    }
+
+    & h1 {
+        font-size: 40vw;
+        margin: 0;
+
+        @include for-tablet-landscape-up {
+            font-size: 10vw;
+        }
+
+    }
+
+    & div {
+        margin: 0;
+    }
+
+    & p {
+        margin-top: 0;
+    }
+}
+
+// ML Map (correctifs)
+.ml-map {
+    & a {
+        color: white;
+    }
+}

@@ -1662,6 +1662,15 @@ class Admin_Panel {
 			$arr_plus_buttons = array_merge( $selected_plus_button_array, $non_plus_selected_buttons );
 		}
 
+		$icon_code  = array();
+		$icon_white = array();
+
+		foreach ( $arr_plus_buttons as $arr_plus_button ) {
+			$button_name                = strtolower( str_replace( array( ' ', '+' ), array( '_', '' ), $arr_plus_button['full_name'] ) );
+			$icon_code[ $button_name ]  = \SimpleShareButtonsAdder\Buttons::get_button_image( $button_name );
+			$icon_white[ $button_name ] = \SimpleShareButtonsAdder\Buttons::get_button_image( $button_name, 'white' );
+		}
+
 		// Bar buttons.
 		if ( true === isset( $selected_bar_button_array )
 			&& false === is_array( $selected_bar_button_array )
@@ -1721,7 +1730,11 @@ class Admin_Panel {
 					$button_full_name = isset( $arr_buttons[ $str_selected ]['full_name'] ) ? $arr_buttons[ $str_selected ]['full_name'] : '';
 
 					// Add a list item for each selected option.
-					$html_selected_list .= '<li class="ssbp-option-item" id="' . esc_attr( $str_selected ) . '"><a title="' . esc_attr( $button_full_name ) . '" class="ssbp-btn ssbp-' . esc_attr( $str_selected ) . '" ' . esc_attr( $disabled ) . '></a></li>';
+					$html_selected_list .= '<li class="ssbp-option-item" id="' . esc_attr( $str_selected ) . '">';
+					$html_selected_list .= '<a style="border-radius: 8px;height: 40px;width: 40px;background-color:' . Buttons::get_button_color( $str_selected ) . ';color:' . Buttons::get_button_color( $str_selected ) . ';" title="' . esc_attr( $arr_buttons[ $str_selected ]['full_name'] ) . '" class="ssbp-btn ssbp-' . esc_attr( $str_selected ) . '" ' . esc_attr( $disabled ) . '>';
+					$html_selected_list .= Buttons::get_button_image( $str_selected );
+					$html_selected_list .= '</a>';
+					$html_selected_list .= '</li>';
 				}
 			}
 		}
@@ -1789,7 +1802,11 @@ class Admin_Panel {
 				} else {
 					if ( self::show_in_classic( $page, $arr_buttons[ $str_available ]['full_name'] ) ) {
 						// Add a list item for each available option.
-						$html_available_list .= '<li class="ssbp-option-item" id="' . esc_attr( $str_available ) . '"><a title="' . esc_attr( $arr_buttons[ $str_available ]['full_name'] ) . '" class="ssbp-btn ssbp-' . esc_attr( $str_available ) . '" ' . esc_attr( $disabled ) . '></a></li>';
+						$html_available_list .= '<li class="ssbp-option-item" id="' . esc_attr( $str_available ) . '">';
+						$html_available_list .= '<a style="border-radius: 8px;height: 40px;width: 40px;background-color:' . Buttons::get_button_color( $str_available ) . ';" title="' . esc_attr( $arr_buttons[ $str_available ]['full_name'] ) . '" class="ssbp-btn ssbp-' . esc_attr( $str_available ) . '" ' . esc_attr( $disabled ) . '>';
+						$html_available_list .= Buttons::get_button_image( $str_available );
+						$html_available_list .= '</a>';
+						$html_available_list .= '</li>';
 					}
 				}
 			}

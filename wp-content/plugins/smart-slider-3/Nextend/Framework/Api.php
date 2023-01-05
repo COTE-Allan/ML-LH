@@ -12,8 +12,6 @@ use Nextend\Framework\Notification\Notification;
 use Nextend\Framework\Platform\Platform;
 use Nextend\Framework\Request\Request;
 use Nextend\Framework\Url\Url;
-use Nextend\Framework\View\Html;
-use Nextend\SmartSlider3\Application\ApplicationSmartSlider3;
 
 class Api {
 

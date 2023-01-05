@@ -4,7 +4,7 @@ Tags: slider, wordpress slider, image slider, layer slider, responsive slider, s
 Donate link: https://sites.fastspring.com/nextend/product/smartslider3donate
 Requires at least: 5.0
 Tested up to: 6.1
-Stable tag: 3.5.1.11
+Stable tag: 3.5.1.12
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -208,6 +208,21 @@ Of course! Smart Slider use protocol relative urls which works fine on http:// a
 9. Layer slider with layers styles. Made with FREE version.
 
 == Changelog ==
+
+= 3.5.1.12 - 15. November 2022 =
+* Feature: New [Slide Library theme](https://smartslider.helpscoutdocs.com/article/1765-slide-editor#slide-library): Nala.
+* Fix: RankMath SEO compatibility that caused problems within the Media Library in certain configurations. 
+* Fix: The last column could be deleted from the row if the row had a nested layer causing errors. 
+* Fix: The notice at the Change Slider Type modal was fixed so it no longer writes out HTML code but actually bolds the texts. 
+* Fix: Output buffer fix to avoid WP-CLI issues. 
+* Fix: Ionos performance compatibility. 
+* Fix: Usercentrics cookie consent plugin compatibility. 
+* Fix: WP Rocket compatibility that makes Smart Slider automatically excluded from WP Rocket's Delay JavaScript execution feature. 
+* Fix: Compatibility fix for Zoho CRM Lead Magnet plugin. 
+* Fix: Smart Slider will no longer break if CUSTOM_TAGS is defined. 
+* Fix: Default value is set to Smart Slider Divi module to ensure proper slider selection. 
+* Fix: Improved security to avoid Javascript codes from admin area fields. 
+
 
 = 3.5.1.11 - 03. October 2022 =
 * Feature: Notice, when NONCE_SALT constant is not defined. 

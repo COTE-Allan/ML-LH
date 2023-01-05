@@ -944,4 +944,21 @@ class SBI_Db {
 		wp_clear_scheduled_hook( 'sbi_feed_update' );
 		wp_clear_scheduled_hook( 'sbi_usage_tracking_cron' );
 	}
+
+	/**
+	 * Query to Get Single source
+	 *
+	 * @param array $source_id
+	 *
+	 * @since 6.0.8
+	 */
+	public static function get_source_by_account_id( $source_id ) {
+		global $wpdb;
+		$sources_table_name = $wpdb->prefix . 'sbi_sources';
+		$sql = $wpdb->prepare(
+				"SELECT * FROM $sources_table_name WHERE account_id = %s; ",
+				$source_id
+			);
+		return $wpdb->get_row( $sql, ARRAY_A );
+	}
 }

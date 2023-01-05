@@ -17,13 +17,15 @@
 				<?php echo esc_html__( 'Modern Share Buttons are CSS-based and allow for Button, Icon, and Icon Hover color customization. You can use our predefined CSS themes or your own custom CSS.' ); ?>
 			</p>
 		</blockquote>
-		<blockquote>
-			<p>
-				<?php echo esc_html__( 'Activating Modern Share Buttons will override your Classic Share Buttons. None of your classic settings will be lost. If you wish to switch back to classic buttons simply deactivate the Modern Share Buttons. Use the simple settings below to get started.  Once you’re done you can further customize the share buttons via the options in the styling, counters, advanced, and CSS sections located below the preview.' ); ?>
-			</p>
-		</blockquote>
 
-		<h3 id="ssba-preview-title-2"><?php echo esc_html__( 'Preview - the order of your preview will update when you save.', 'simple-share-buttons-adder' ); ?></h3>
+		<h3 id="ssba-preview-title-2">
+		<?php
+		echo esc_html__(
+			'Preview - the order of your preview will update when you save.',
+			'simple-share-buttons-adder'
+		);
+		?>
+		</h3>
 
 		<div class="master-ssba-prev-wrap2">
 			<div id="ssba-preview" style="<?php echo esc_attr( 'text-align: ' . $arr_settings['ssba_plus_align'] . ';' ); ?>" class="<?php echo isset( $arr_settings['ssba_plus_position'] ) ? esc_attr( $arr_settings['ssba_plus_position'] ) : ''; ?> ssbp-wrap ssbp--theme-<?php echo esc_attr( $arr_settings['ssba_plus_button_style'] ); ?>">
@@ -36,19 +38,38 @@
 						<?php if ( true === is_array( $arr_plus_buttons ) ) : ?>
 							<?php
 							foreach ( $arr_plus_buttons as $buttons ) :
-								$button = strtolower( str_replace( ' ', '_', str_replace( '+', '', $buttons['full_name'] ) ) );
+								$button        = strtolower( str_replace( [ ' ', '+' ], [ '_', '' ], $buttons['full_name'] ) );
+								$network_color = \SimpleShareButtonsAdder\Buttons::get_button_color( $button );
 								?>
-
-							<li style="margin-left: <?php echo esc_attr( $arr_settings['ssba_plus_margin'] ); ?>px;" class="ssbp-li--<?php echo esc_attr( $button ); ?>
-								<?php
-								if ( false === in_array( $button, explode( ',', $arr_settings['ssba_selected_plus_buttons'] ), true ) ) {
+								<li style="margin-left: <?php echo esc_attr( $arr_settings['ssba_plus_margin'] ); ?>px;" class="ssbp-li--<?php echo esc_attr( $button ); ?><?php if ( false === in_array( $button, explode( ',', $arr_settings['ssba_selected_plus_buttons'] ), true ) ) {
 									echo esc_attr( ' ssba-hide-button' );
-								}
-								?>
-							">
-								<a href="#" class="ssbp-btn ssbp-<?php echo esc_attr( $button ); ?>" style="height: <?php echo esc_attr( $arr_settings['ssba_plus_height'] ); ?>px; width: <?php echo esc_attr( $arr_settings['ssba_plus_width'] ); ?>px; <?php echo '' !== $arr_settings['ssba_plus_button_color'] ? esc_attr( 'background: ' . $arr_settings['ssba_plus_button_color'] . ';' ) : ''; ?>"><div title="<?php echo esc_attr( $buttons['full_name'] ); ?>" class="ssbp-text"><?php echo esc_html( $buttons['full_name'] ); ?></div></a>
-								<span class="<?php echo 'Y' !== $arr_settings['ssba_plus_show_share_count'] ? esc_attr( 'ssba-hide-button' ) : ''; ?> ssbp-each-share">1.8k</span>
-							</li>
+														} ?>">
+									<a href="#" class="ssbp-btn ssbp-<?php echo esc_attr( $button ); ?>" style="color:<?php echo esc_attr( $network_color ); ?>; background-color: <?php echo esc_attr( $network_color ); ?>; height: <?php echo esc_attr( $arr_settings['ssba_plus_height'] ); ?>px; width: <?php echo esc_attr( $arr_settings['ssba_plus_width'] ); ?>px; <?php echo '' !== $arr_settings['ssba_plus_button_color'] ? esc_attr( 'background: ' . $arr_settings['ssba_plus_button_color'] . ';' ) : ''; ?>">
+									<span>
+										<?php echo $icon_code[ $button ]; // phpcs:ignore
+										?>
+									</span>
+									<span class="color-icon">
+										<?php echo $icon_white[ $button ]; // phpcs:ignore
+										?>
+									</span>
+										<div title="<?php echo esc_attr( $buttons['full_name'] ); ?>" style="color:<?php echo esc_attr( $network_color ); ?> class=" class="ssbp-text">
+																	<?php
+																		echo esc_html(
+																			str_replace(
+																				[
+																					'Yahoo Mail',
+																					'StumbleUpon',
+																				],
+																				[ 'Yahoo', 'Stumble' ],
+																				$buttons['full_name']
+																			)
+																		);
+																	?>
+											</div>
+									</a>
+									<span class="<?php echo 'Y' !== $arr_settings['ssba_plus_show_share_count'] ? esc_attr( 'ssba-hide-button' ) : ''; ?> ssbp-each-share">1.8k</span>
+								</li>
 							<?php endforeach; ?>
 						<?php endif; ?>
 					</ul>
@@ -56,36 +77,49 @@
 			</div>
 		</div>
 
-		<label for="ssba_choices" class="control-label" data-toggle="tooltip" data-placement="right" data-original-title="<?php echo esc_attr__( 'Drag, drop and reorder those buttons that you wish to include', 'simple-share-buttons-adder' ); ?>"><?php echo esc_html__( 'Networks', 'simple-share-buttons-adder' ); ?></label>
+		<label for="ssba_choices" class="control-label" data-toggle="tooltip" data-placement="right" data-original-title="<?php echo esc_attr__( 'Drag, drop and reorder those buttons that you wish to include', 'simple-share-buttons-adder' ); ?>">
+			<?php echo esc_html__( 'Networks', 'simple-share-buttons-adder' ); ?>
+		</label>
 
 		<div>
-		<div class="ssbp-wrap ssbp--centred ssbp--theme-4">
-			<div class="ssbp-container">
-				<ul id="ssbasort5" class="ssbp-list ssbaSortable">
-					<?php echo wp_kses_post( $this->get_available_ssba( $arr_settings['ssba_selected_plus_buttons'], $arr_settings ) ); ?>
-				</ul>
-			</div>
-		</div>
-		</div>
-		<div class="well">
-			<div class="ssba-well-instruction">
-				<i class="fa fa-download"></i> <?php echo esc_html__( 'Drop icons below', 'simple-share-buttons-adder' ); ?>
-			</div>
-			<div class="ssbp-wrap ssbp--centred ssbp--theme-4">
+			<div class="ssbp-wrap ssbp--centred">
 				<div class="ssbp-container">
-					<ul id="ssbasort6" class="ssba-include-list ssbp-list ssbaSortable">
-						<?php echo wp_kses_post( $this->get_selected_ssba( $arr_settings['ssba_selected_plus_buttons'], $arr_settings ) ); ?>
+					<ul id="ssbasort5" class="ssbp-list ssbaSortable">
+						<?php
+						echo
+							$this->get_available_ssba(
+								$arr_settings['ssba_selected_plus_buttons'],
+								$arr_settings
+						);
+						?>
 					</ul>
 				</div>
 			</div>
 		</div>
-
-		<?php if ( in_array( 'whatsapp', explode( ',', $arr_settings['ssba_selected_plus_buttons'] ), true ) ) : ?>
-			<div class="ssbp--theme-4 whatsapp-message">
-				<span class="ssbp-btn ssbp-whatsapp"></span>
-				<?php echo esc_html__( 'The whatsapp button only appears on mobile devices. It is included in your desktop preview for reference only.', 'simple-share-buttons-adder' ); ?>
+		<div class="well">
+			<div class="ssba-well-instruction">
+				<i class="fa fa-download"></i>
+				<?php
+				echo esc_html__(
+					'Drop icons below',
+					'simple-share-buttons-adder'
+				);
+				?>
 			</div>
-		<?php endif; ?>
+			<div class="ssbp-wrap ssbp--centred ssbp--theme-4">
+				<div class="ssbp-container">
+					<ul id="ssbasort6" class="ssba-include-list ssbp-list ssbaSortable">
+						<?php
+						echo
+							$this->get_selected_ssba(
+								$arr_settings['ssba_selected_plus_buttons'],
+								$arr_settings
+						);
+						?>
+					</ul>
+				</div>
+			</div>
+		</div>
 
 		<input type="hidden" name="ssba_selected_plus_buttons" id="ssba_selected_plus_buttons" value="<?php esc_attr( $arr_settings['ssba_selected_plus_buttons'] ); ?>"/>
 
@@ -207,7 +241,15 @@
 					</div>
 
 					<div class="col-md-12">
-						<?php echo esc_html__( 'You shall need to follow the instructions here before enabling this feature', 'simple-share-buttons-adder' ); ?> - <a target="_blank" href="https://developers.facebook.com/docs/apps/register"><?php echo esc_html( 'https://developers.facebook.com/docs/apps/register' ); ?></a>
+						<?php
+						echo esc_html__(
+							'You shall need to follow the instructions here before enabling this feature',
+							'simple-share-buttons-adder'
+						);
+						?>
+						- <a target="_blank" href="https://developers.facebook.com/docs/apps/register">
+							<?php echo esc_html( 'https://developers.facebook.com/docs/apps/register' ); ?>
+						</a>
 					</div>
 
 					<div class="col-md-12">
@@ -219,7 +261,12 @@
 					</div>
 
 					<div class="col-md-12">
-						<?php echo esc_html__( 'You shall need have created and added a Facebook App ID above to make use of this feature', 'simple-share-buttons-adder' ); ?>
+						<?php
+						echo esc_html__(
+							'You shall need have created and added a Facebook App ID above to make use of this feature',
+							'simple-share-buttons-adder'
+						);
+						?>
 					</div>
 
 					<div class="col-md-12">
@@ -261,7 +308,14 @@
 
 					<div class="col-md-12">
 						<blockquote>
-							<p><?php echo esc_html__( 'The contents of the text area below will be appended to Simple Share Button Adder\'s CSS.', 'simple-share-buttons-adder' ); ?></p>
+							<p>
+							<?php
+							echo esc_html__(
+								'The contents of the text area below will be appended to Simple Share Button Adder\'s CSS.',
+								'simple-share-buttons-adder'
+							);
+							?>
+									</p>
 						</blockquote>
 					</div>
 

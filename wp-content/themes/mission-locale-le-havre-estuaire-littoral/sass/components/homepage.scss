@@ -1,0 +1,303 @@
+/* Homepage
+--------------------------------------------- */
+.site-main {
+    & h2.secondary-title {
+        @include make-it-flex(center, center, row, row);
+
+        text-transform: uppercase;
+        vertical-align: middle;
+        font-size: 25px;
+        margin-top: 0;
+
+        @include for-tablet-portrait-up {
+            font-size: 35px;
+        }
+
+        @include for-tablet-landscape-up {
+            font-size: 40px;
+        }
+
+        @include for-desktop-up {
+            justify-content: flex-start;
+            font-size: 50px;
+
+        }
+
+        & .dashicons {
+            margin-right: 10px;
+            @include hwf(40px);
+
+            @include for-tablet-portrait-up {
+                @include hwf(50px);
+            }
+
+            @include for-tablet-landscape-up {
+                @include hwf (70px);
+            }
+
+            @include for-desktop-up {
+                @include hwf(80px);
+            }
+        }
+    }
+
+    &-content {
+        margin: 40px 25px;
+        @include make-it-flex(initial, initial, column, row);
+
+
+        @include for-tablet-portrait-up {
+            margin: 40px 45px;
+
+        }
+
+        @include for-tablet-landscape-up {
+            margin: 40px 150px;
+
+        }
+
+        @include for-desktop-up {
+            margin: 40px 90px;
+            justify-content: space-around;
+        }
+
+        & h2 {
+            font-size: 30px;
+            margin: 10px 0;
+
+            @include for-tablet-landscape-up {
+                font-size: 40px;
+            }
+        }
+
+
+
+        &-news {
+            @include for-desktop-up {
+                width: 40vw;
+                margin: 0 20px;
+
+            }
+
+            & article {
+                @include for-desktop-up {
+                    width: 90%;
+                }
+
+                margin-bottom: 30px;
+                padding-top: 5px;
+
+                transition: background-color 150ms ease-in;
+
+                &:hover {
+                    background-color: $grey;
+                }
+            }
+
+            & div {
+                @include quadruple-margin(0, 0, 10px, 0);
+            }
+
+            article h1 {
+                font-size: 20px;
+
+                margin: 10px;
+
+                @include for-desktop-up {
+                    @include quadruple-margin(10px, 0, 10px, 0);
+                }
+            }
+
+            & img {
+                display: none;
+            }
+
+            & hr {
+                background-color: $purple;
+                height: 3px;
+            }
+
+            & .moretag {
+                text-align: center;
+                margin-top: 10px;
+                width: 100%;
+                position: relative;
+                top: 10px;
+                right: 5px;
+
+                @include for-desktop-up {
+                    width: 30%;
+                    align-self: flex-end;
+                    right: 0;
+                    left: 10px;
+                }
+
+
+                @include button($purple, white);
+
+            }
+
+            & p {
+                @include make-it-flex(initial, initial, column, column);
+            }
+
+            & .firstpost {
+                background-color: $grey;
+                width: 100%;
+
+                &:hover {
+                    background-color: darken($grey, 5%);
+                }
+
+                & img {
+                    display: block;
+                    height: 300px;
+                    object-fit: cover;
+                }
+
+                & h1 {
+                    font-size: 30px;
+
+                }
+            }
+        }
+
+        &-offers {
+            @include for-desktop-up {
+                width: 40vw;
+                margin: 0 20px;
+
+            }
+
+            & .offers-item {
+                & hr {
+                    border: none;
+                    background-color: $green;
+                    height: 3px;
+                }
+
+                width: 100%;
+
+                & .is-layout-flex {
+                    align-items: stretch;
+                    gap: 0;
+                }
+
+                & .wp-block-button {
+                    flex: 25%;
+
+                    @include for-tablet-landscape-up {
+                        flex: 35%;
+
+                    }
+
+                    margin: 10px 10px;
+
+                    @include hovering-scale(1.05);
+
+                    & a {
+                        width: 100%;
+                        border-radius: 0;
+                        padding: calc(1.3em + 2px) calc(1.333em + 2px);
+                        @include text-overflow(ellipsis);
+
+                        @include make-it-flex(initial, center, column, column);
+
+                        @include for-tablet-or-below {
+                            font-size: 20px !important;
+                        }
+
+                        & span {
+                            $z : 25px;
+
+                            @include for-tablet-landscape-up {
+                                $z: 40px;
+                            }
+
+                            width: $z;
+                            height: $z;
+                            font-size: $z;
+
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+    &-instagram {
+        @include define-colors($red, white);
+        text-align: center;
+        padding: 30px 20px;
+        text-align: center;
+
+        @include for-desktop-up {
+            padding: 45px 30px;
+            text-align: start
+        }
+
+
+    }
+
+    &-proposals {
+        padding: 30px 20px;
+
+        @include for-desktop-up {
+            padding: 50px 30px;
+        }
+
+
+        & .proposals-list {
+
+
+            &>.wp-block-group__inner-container {
+                @include make-it-flex(space-around, center, column, row);
+                flex-wrap: nowrap;
+
+                @include for-tablet-landscape-up {
+                    flex-direction: row;
+                }
+            }
+
+            & .proposals-list-item {
+                width: 85vw;
+                margin: 20px 0;
+
+                @include hovering-scale(1.1);
+
+                @include for-tablet-landscape-up {
+                    flex: 0 1 20%;
+                    width: auto;
+                    height: 350px;
+
+                    margin: 0 20px;
+
+
+                }
+
+                & img {
+                    width: 350px;
+                }
+
+                & h3 {
+                    font-size: 30px;
+                    margin: 0;
+                }
+
+            }
+        }
+
+
+
+
+    }
+
+    & .close-icon {
+        display: none;
+    }
+}

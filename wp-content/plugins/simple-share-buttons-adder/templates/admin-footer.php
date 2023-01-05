@@ -9,7 +9,7 @@
 
 ?>
 	</div>
-	<?php if ( empty( get_option( 'ssba-hide-review' ) ) ) : ?>
+	<?php if ( true === empty( get_option( 'ssba-hide-review' ) ) ) : ?>
 		<div class="ssba-review-us">
 			<h3>
 				<?php echo esc_html__( 'Love this plugin?', 'simple-share-buttons-adder' ); ?>

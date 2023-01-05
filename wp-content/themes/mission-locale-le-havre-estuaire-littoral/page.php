@@ -17,7 +17,7 @@ get_header();
 ?>
 <?php
 if (function_exists('yoast_breadcrumb')) {
-	yoast_breadcrumb('
+    yoast_breadcrumb('
 <p id="breadcrumbs">', '</p>
 ');
 }
@@ -27,19 +27,19 @@ if (function_exists('yoast_breadcrumb')) {
     <div class="site-single-banner-content">
         <h1>
             <?php
-			the_title();
-			?>
+            the_title();
+            ?>
         </h1>
         <div class="site-single-banner-content-details">
             <?php
-			echo get_the_date('j F, Y');
-			?>
+            echo get_the_date('j F, Y');
+            ?>
         </div>
     </div>
     <div class="site-single-banner-background">
         <?php
-		the_post_thumbnail();
-		?>
+        the_post_thumbnail();
+        ?>
     </div>
 </div>
 <div class="site-content">
@@ -47,19 +47,18 @@ if (function_exists('yoast_breadcrumb')) {
     <main id="primary" class="site-main site-single">
 
         <?php
-		while (have_posts()) :
-			the_post();
+        while (have_posts()) :
+            the_post();
 
-			get_template_part('template-parts/content', 'page');
+            get_template_part('template-parts/content', 'page');
 
-		endwhile; // End of the loop.
-		?>
-        <hr class="site-content-separate" />
+        endwhile;
+        ?>
 
-    </main><!-- #main -->
+    </main>
     <?php
-	get_sidebar();
-	?>
+    get_sidebar();
+    ?>
 
 </div>
 <?php

@@ -10,6 +10,7 @@
 
 ?>
 
+<!-- #post-<?php the_ID(); ?> -->
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="entry-header">
         <?php mission_locale_le_havre_estuaire_littoral_post_thumbnail(); ?>
@@ -23,17 +24,16 @@
         <div class="entry-meta">
             <?php
                 mission_locale_le_havre_estuaire_littoral_posted_on();
-                mission_locale_le_havre_estuaire_littoral_posted_by();
                 ?>
-        </div><!-- .entry-meta -->
+        </div>
         <?php endif; ?>
-    </header><!-- .entry-header -->
+    </header>
 
 
     <div class="entry-content">
         <?php
         the_excerpt();
         ?>
-    </div><!-- .entry-content -->
+    </div>
 
-</article><!-- #post-<?php the_ID(); ?> -->
+</article>

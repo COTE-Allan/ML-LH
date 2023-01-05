@@ -1,0 +1,111 @@
+/* Sidebar 
+--------------------------------------------- */
+aside#secondary {
+    display: none;
+
+    @include for-desktop-up {
+        display: block;
+        width: 20vw;
+    }
+
+
+    h2 {
+        text-transform: uppercase;
+    }
+
+    ul {
+        margin: 0;
+    }
+
+    .wp-block-latest-posts__list {
+        li {
+            & a {
+                @include text-overflow(ellipsis);
+                width: 100%;
+                display: inline-block;
+            }
+
+            & div {
+                @include make-it-flex(initial, initial, column, column);
+            }
+
+            & .moretag {
+
+                font-size: 15px;
+                text-align: center;
+                margin-top: 10px;
+                align-self: flex-end;
+                position: relative;
+                top: 5px;
+                right: 25px;
+
+                @include for-desktop-up {
+                    width: 30%;
+                }
+
+                @include button($purple, white);
+            }
+
+            @include quadruple-padding(10px, 0, 10px, 0);
+            @include two-bg-colors(white, $grey);
+        }
+
+        a {
+            font-size: 22px;
+            color: $purple;
+        }
+    }
+
+    & .is-layout-flex {
+        align-items: stretch;
+        gap: 0;
+    }
+
+    & .wp-block-button {
+        flex: 25%;
+
+        @include for-tablet-landscape-up {
+            flex: 35%;
+
+        }
+
+        margin: 10px 10px;
+
+        @include hovering-scale(1.05);
+
+        & a {
+            width: 100%;
+            border-radius: 0;
+            padding: calc(1.3em + 2px) calc(1.333em + 2px);
+            @include text-overflow(ellipsis);
+            @include make-it-flex(initial, center, column, column);
+
+            @include for-tablet-or-below {
+                font-size: 20px !important;
+            }
+
+            & span {
+                $z : 15px;
+
+                @include for-tablet-landscape-up {
+                    $z: 25px;
+                }
+
+                width: $z;
+                height: $z;
+                font-size: $z;
+
+
+            }
+        }
+    }
+
+    .wp-block-embed__wrapper {
+        @include make-it-flex(center, center, row, row);
+
+        iframe {
+            width: 90%;
+            height: 200px;
+        }
+    }
+}

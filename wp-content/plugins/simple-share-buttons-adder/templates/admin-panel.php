@@ -9,8 +9,7 @@
 
 $selected_tab = get_option( 'ssba_selected_tab' );
 $selected_tab = null !== $selected_tab && false !== $selected_tab ? $selected_tab : 'modern';
-$classic      = 'classic' === $selected_tab ? 'active' : '';
-$modern       = isset( $selected_tab ) && 'modern' === $selected_tab ? 'active' : '';
+$modern       = isset( $selected_tab ) && false === in_array( $selected_tab, array( 'bar', 'gdpr' ), true ) ? 'active' : '';
 $bar          = isset( $selected_tab ) && 'bar' === $selected_tab ? 'active' : '';
 $gdpr         = isset( $selected_tab ) && 'gdpr' === $selected_tab ? 'active' : '';
 
@@ -23,11 +22,6 @@ echo $this->forms->open( false ); // phpcs:ignore
 <h2><?php echo esc_html__( 'Settings', 'simple-share-buttons-adder' ); ?></h2>
 
 <ul class="nav nav-tabs">
-	<li class="ssba-classic-tab <?php echo esc_attr( $classic ); ?>">
-		<a href="#classic-share-buttons" data-toggle="tab">
-			<?php echo esc_html__( 'Classic Share Buttons', 'simple-share-buttons-adder' ); ?>
-		</a>
-	</li>
 	<li class="ssba-modern-tab <?php echo esc_attr( $modern ); ?>">
 		<a href="#plus-share-buttons" data-toggle="tab">
 			<?php echo esc_html__( 'Modern Share Buttons', 'simple-share-buttons-adder' ); ?>

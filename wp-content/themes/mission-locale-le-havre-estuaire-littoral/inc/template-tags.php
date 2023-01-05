@@ -134,7 +134,7 @@ if (!function_exists('mission_locale_le_havre_estuaire_littoral_post_thumbnail')
 
 <div class="post-thumbnail">
     <?php the_post_thumbnail(); ?>
-</div><!-- .post-thumbnail -->
+</div>
 
 <?php else : ?>
 
@@ -154,7 +154,7 @@ if (!function_exists('mission_locale_le_havre_estuaire_littoral_post_thumbnail')
 </a>
 
 <?php
-		endif; // End is_singular().
+		endif;
 	}
 endif;
 

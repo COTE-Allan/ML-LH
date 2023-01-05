@@ -509,6 +509,93 @@ class Database {
 			'yummly'      => array(
 				'full_name' => esc_html__( 'Yummly', 'simple-share-buttons-adder' ),
 			),
+			'blogger'     => array(
+				'full_name' => esc_html__( 'Blogger', 'simple-share-buttons-adder' ),
+			),
+			'copy'        => array(
+				'full_name' => esc_html__( 'Copy', 'simple-share-buttons-adder' ),
+			),
+			'diaspora'    => array(
+				'full_name' => esc_html__( 'Diaspora', 'simple-share-buttons-adder' ),
+			),
+			'douban'      => array(
+				'full_name' => esc_html__( 'Douban', 'simple-share-buttons-adder' ),
+			),
+			'evernote'    => array(
+				'full_name' => esc_html__( 'Evernote', 'simple-share-buttons-adder' ),
+			),
+			'get_pocket'  => array(
+				'full_name' => esc_html__( 'Get Pocket', 'simple-share-buttons-adder' ),
+			),
+			'gmail'       => array(
+				'full_name' => esc_html__( 'gmail', 'simple-share-buttons-adder' ),
+			),
+			'hackernews'  => array(
+				'full_name' => esc_html__( 'Hacker News', 'simple-share-buttons-adder' ),
+			),
+			'instapaper'  => array(
+				'full_name' => esc_html__( 'Instapaper', 'simple-share-buttons-adder' ),
+			),
+			'iorbix'      => array(
+				'full_name' => esc_html__( 'Iorbix', 'simple-share-buttons-adder' ),
+			),
+			'kakao'       => array(
+				'full_name' => esc_html__( 'Kakao', 'simple-share-buttons-adder' ),
+			),
+			'kindleit'    => array(
+				'full_name' => esc_html__( 'Kindleit', 'simple-share-buttons-adder' ),
+			),
+			'kooapp'      => array(
+				'full_name' => esc_html__( 'Kooapp', 'simple-share-buttons-adder' ),
+			),
+			'livejournal' => array(
+				'full_name' => esc_html__( 'Live Journal', 'simple-share-buttons-adder' ),
+			),
+			'mailru'      => array(
+				'full_name' => esc_html__( 'Mailru', 'simple-share-buttons-adder' ),
+			),
+			'meneame'     => array(
+				'full_name' => esc_html__( 'Meneame', 'simple-share-buttons-adder' ),
+			),
+			'messenger'   => array(
+				'full_name' => esc_html__( 'Messenger', 'simple-share-buttons-adder' ),
+			),
+			'outlook'     => array(
+				'full_name' => esc_html__( 'Outlook', 'simple-share-buttons-adder' ),
+			),
+			'qzone'       => array(
+				'full_name' => esc_html__( 'Qzone', 'simple-share-buttons-adder' ),
+			),
+			'refind'      => array(
+				'full_name' => esc_html__( 'Refind', 'simple-share-buttons-adder' ),
+			),
+			'renren'      => array(
+				'full_name' => esc_html__( 'Renren', 'simple-share-buttons-adder' ),
+			),
+			'surfingbird' => array(
+				'full_name' => esc_html__( 'Surfing Bird', 'simple-share-buttons-adder' ),
+			),
+			'tencentqq'   => array(
+				'full_name' => esc_html__( 'Tencent QQ', 'simple-share-buttons-adder' ),
+			),
+			'threema'     => array(
+				'full_name' => esc_html__( 'Threema', 'simple-share-buttons-adder' ),
+			),
+			'trello'      => array(
+				'full_name' => esc_html__( 'Trello', 'simple-share-buttons-adder' ),
+			),
+			'viber'       => array(
+				'full_name' => esc_html__( 'Viber', 'simple-share-buttons-adder' ),
+			),
+			'wechat'      => array(
+				'full_name' => esc_html__( 'Wechat', 'simple-share-buttons-adder' ),
+			),
+			'wordpress'   => array(
+				'full_name' => esc_html__( 'WordPress', 'simple-share-buttons-adder' ),
+			),
+			'yahoo_mail'  => array(
+				'full_name' => esc_html__( 'Yahoo Mail', 'simple-share-buttons-adder' ),
+			),
 		);
 
 		// Helper array for ssbp.

@@ -74,12 +74,42 @@ var Main = ( function( $, FB ) {
 					function( response ) {}
 				);
 			} else {
-
 				// These share options don't need to have a popup.
-				if ( 'email' === $( event ).data( 'site' ) || 'print' === $( event ).data( 'site' ) || 'pinterest' === $( event ).data( 'site' ) ) {
+				if ( 'copy' === $( event ).data( 'site' ) || 'email' === $( event ).data( 'site' ) || 'print' === $( event ).data( 'site' ) || 'pinterest' === $( event ).data( 'site' ) ) {
+					if ( 'copy' === $( event ).data( 'site' ) ) {
+						const copybutton = document.querySelector( '[data-site="copy"]' );
 
-					// Just redirect.
-					window.location.href = $( event ).attr( 'href' );
+						navigator.clipboard.writeText(copybutton.getAttribute('href'));
+
+						if ( copybutton ) {
+							const copymessage = document.createElement( 'span' )
+							copymessage.innerText = 'URL Copied!';
+							copymessage.className = 'copy-notify';
+							copymessage.style.opacity = '1';
+							copymessage.style.width = '100px';
+							copymessage.style.fontSize = '12px';
+							copymessage.style.transition = 'all .6s';
+							copymessage.style.position = 'absolute';
+							copymessage.style.top = '-24px';
+							copymessage.style.left = '-24px';
+							copybutton.append( copymessage );
+
+							setTimeout( () => {
+								copymessage.style.opacity = '0';
+								copymessage.style.minWidth = '0';
+								copymessage.style.width = '0';
+								copymessage.style.padding = '0';
+								copymessage.style.overflow = 'hidden';
+
+								setTimeout( () => {
+									copymessage.remove();
+								}, 1000 );
+							}, 1500 );
+						}
+					} else {
+						// Just redirect.
+						window.location.href = $( event ).attr( 'href' );
+					}
 				} else {
 
 					// Prepare popup window.

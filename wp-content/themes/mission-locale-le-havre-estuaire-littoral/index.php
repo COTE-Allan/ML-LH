@@ -17,42 +17,52 @@ get_header();
 ?>
 <main id="primary" class="site-main">
     <?php
-	echo do_shortcode('[smartslider3 slider="2"]');
-	?>
+    echo do_shortcode('[smartslider3 slider="2"]');
+    ?>
     <div class="site-main-content">
         <div class="site-main-content-news">
-            <h1>Actualité</h1>
+            <h2>Actualités</h2>
             <hr />
             <?php
-			$count = 0; //set up counter variable
-			if (have_posts()) :
+            $count = 0; //set up counter variable
+            if (have_posts()) :
 
-				if (is_home() && !is_front_page()) :
-			?>
+                if (is_home() && !is_front_page()) :
+            ?>
             <header>
                 <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
             </header>
             <?php
-				endif;
-				/* Start the Loop */
-				while (have_posts()) :
-					$count++; //increment the variable by 1 each time the loop executes
-					if ($count > 3) {
-						break;
-					}
-					the_post();
-					get_template_part('template-parts/contents', get_post_type());
-				endwhile;
-			else :
-				get_template_part('template-parts/content', 'none');
-			endif;
-			?>
+                endif;
+                while (have_posts()) :
+                    $count++; //increment the variable by 1 each time the loop executes
+                    if ($count > 3) {
+                        break;
+                    }
+                    the_post();
+                    get_template_part('template-parts/contents', get_post_type());
+                endwhile;
+            else :
+                get_template_part('template-parts/content', 'none');
+            endif;
+            ?>
+            <a href=""></a>
+        </div>
+        <div class="site-main-content-offers">
+            <?php dynamic_sidebar('offers-placeholder'); ?>
         </div>
     </div>
-    <?php
-	echo do_shortcode('[sc-ml-map]');
-	echo do_shortcode('[instagram-feed feed=1]');
-	?>
+    <div class="site-main-map">
+        <?= do_shortcode('[sc-ml-map]');  ?>
+    </div>
+    <div class="site-main-proposals">
+        <?php dynamic_sidebar('proposals-placeholder'); ?>
+    </div>
+    <div class="site-main-instagram">
+        <h2 class="secondary-title"> <span class="dashicons dashicons-instagram"></span> Suivez-nous sur Instagram !
+        </h2>
+        <?= do_shortcode('[instagram-feed feed=1]')  ?>
+    </div>
 </main>
 
 

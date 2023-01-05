@@ -85,6 +85,18 @@ class OutputBuffer {
             });
         }
 
+        if (class_exists('Ionos\Performance\Caching')) {
+            /**
+             * @see SSDEV-3780
+             */
+            add_action('template_redirect', function () {
+                ob_start(array(
+                    $this,
+                    "outputCallback"
+                ));
+            });
+        }
+
         if (defined('PERFMATTERS_VERSION')) {
             /**
              * @see SSDEV-3398

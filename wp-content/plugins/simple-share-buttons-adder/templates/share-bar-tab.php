@@ -34,11 +34,10 @@
 							)
 						);
 
-						echo wp_kses_post(
+						echo
 							$this->get_available_ssba(
 								$arr_settings['ssba_selected_bar_buttons'],
 								$arr_settings
-							)
 						);
 						?>
 					</ul>
@@ -51,18 +50,11 @@
 				<div class="ssbp-wrap ssbp--centred ssbp--theme-4">
 					<div class="ssbp-container">
 						<ul id="ssbasort4" class="ssba-include-list ssbp-list ssbaSortable">
-							<?php echo wp_kses_post( $this->get_selected_ssba( $arr_settings['ssba_selected_bar_buttons'], $arr_settings ) ); ?>
+							<?php echo $this->get_selected_ssba( $arr_settings['ssba_selected_bar_buttons'], $arr_settings ); ?>
 						</ul>
 					</div>
 				</div>
 			</div>
-
-			<?php if ( in_array( 'whatsapp', explode( ',', $arr_settings['ssba_selected_bar_buttons'] ), true ) ) : ?>
-				<div class="ssbp--theme-4 whatsapp-message">
-					<span class="ssbp-btn ssbp-whatsapp"></span>
-					<?php echo esc_html__( 'The whatsapp button only appears on mobile devices. It is included in your desktop preview for reference only.', 'simple-share-buttons-adder' ); ?>
-				</div>
-			<?php endif; ?>
 
 			<input type="hidden" name="ssba_selected_bar_buttons" id="ssba_selected_bar_buttons" value="<?php esc_attr( $arr_settings['ssba_selected_bar_buttons'] ); ?>"/>
 		</div>
@@ -73,22 +65,27 @@
 					<?php if ( is_array( $arr_bar_buttons ) ) : ?>
 						<?php
 						foreach ( $arr_bar_buttons as $buttons ) :
-							$button = strtolower( str_replace( ' ', '_', str_replace( '+', '', $buttons['full_name'] ) ) );
+							$button        = strtolower( str_replace( array( ' ', '+' ), array( '_', '' ), $buttons['full_name'] ) );
+							$network_color = \SimpleShareButtonsAdder\Buttons::get_button_color( $button );
 							?>
-						<li style="margin: <?php echo esc_attr( $arr_settings['ssba_bar_margin'] ); ?>px 0;" class="ssbp-li--<?php echo esc_attr( $button ); ?>
-							<?php
-							if ( false === in_array( $button, explode( ',', $arr_settings['ssba_selected_bar_buttons'] ), true ) ) {
-								echo esc_attr( ' ssba-hide-button' );
-							}
-							?>
-						">
-							<a href="#" class="ssbp-btn ssbp-<?php echo esc_attr( $button ); ?>" style="height: <?php echo esc_attr( $arr_settings['ssba_bar_height'] ); ?>px; width: <?php echo esc_attr( $arr_settings['ssba_bar_width'] ); ?>px; <?php echo '' !== $arr_settings['ssba_bar_button_color'] ? esc_attr( 'background: ' . $arr_settings['ssba_bar_button_color'] . ';' ) : ''; ?>">
-								<div title="<?php echo esc_attr( $buttons['full_name'] ); ?>" class="ssbp-text">
-									<?php echo esc_html( $buttons['full_name'] ); ?>
-								</div>
-							</a>
-							<span class="<?php echo 'Y' !== $arr_settings['ssba_bar_show_share_count'] ? esc_attr( 'ssba-hide-button' ) : ''; ?> ssbp-each-share">1.8k</span>
-						</li>
+							<li style="margin-left: <?php echo esc_attr( $arr_settings['ssba_bar_margin'] ); ?>px;" class="ssbp-li--<?php echo esc_attr( $button ); ?>
+								<?php
+								if ( false === in_array( $button, explode( ',', $arr_settings['ssba_selected_bar_buttons'] ), true ) ) {
+									echo esc_attr( ' ssba-hide-button' );
+								}
+								?>
+							">
+								<a href="#" class="ssbp-btn ssbp-<?php echo esc_attr( $button ); ?>" style="color:<?php echo esc_attr( $network_color ); ?>; background-color: <?php echo esc_attr( $network_color ); ?>; height: <?php echo esc_attr( $arr_settings['ssba_plus_height'] ); ?>px; width: <?php echo esc_attr( $arr_settings['ssba_bar_width'] ); ?>px; <?php echo '' !== $arr_settings['ssba_bar_button_color'] ? esc_attr( 'background: ' . $arr_settings['ssba_bar_button_color'] . ';' ) : ''; ?>">
+									<span>
+										<?php echo $icon_code[ $button ]; // phpcs:ignore ?>
+									</span>
+									<span class="color-icon">
+										<?php echo $icon_white[ $button ]; // phpcs:ignore ?>
+									</span>
+									<div title="<?php echo esc_attr( $buttons['full_name'] ); ?>" style="color:<?php echo esc_attr( $network_color ); ?>;" class="ssbp-text"><?php echo esc_html( str_replace( 'Yahoo Mail', 'Yahoo', $buttons['full_name'] ) ); ?></div>
+								</a>
+								<span class="<?php echo 'Y' !== $arr_settings['ssba_bar_show_share_count'] ? esc_attr( 'ssba-hide-button' ) : ''; ?> ssbp-each-share">1.8k</span>
+							</li>
 						<?php endforeach; ?>
 					<?php endif; ?>
 				</ul>

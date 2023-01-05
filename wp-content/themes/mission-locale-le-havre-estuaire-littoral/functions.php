@@ -55,6 +55,8 @@ function mission_locale_le_havre_estuaire_littoral_setup()
 			'menu-2' => "Blocs de couleurs du Header",
 			'menu-3' => "Réseaux sociaux du Footer",
 			'menu-4' => "Navigation du Footer",
+			'menu-5' => "Gros bouton du Footer",
+
 		)
 	);
 
@@ -136,6 +138,33 @@ function mission_locale_le_havre_estuaire_littoral_widgets_init()
 			'after_widget'  => '</section>',
 			'before_title'  => '<h2 class="widget-title">',
 			'after_title'   => '</h2>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__('Footer Partenaires', 'mission-locale-le-havre-estuaire-littoral'),
+			'id'            => 'footer-partners',
+			'description'   => esc_html__('Ajouter le bandeau partenaire ici.', 'mission-locale-le-havre-estuaire-littoral'),
+			'before_widget' => '<div class="site-footer-partners">',
+			'after_widget'  => '</div>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__('Emplacement offres', 'mission-locale-le-havre-estuaire-littoral'),
+			'id'            => 'offers-placeholder',
+			'description'   => esc_html__('Ajouter les redirections vers les offres ici.', 'mission-locale-le-havre-estuaire-littoral'),
+			'before_widget' => '<div class="offers-item">',
+			'after_widget'  => '</div>',
+		)
+	);
+	register_sidebar(
+		array(
+			'name'          => esc_html__('Emplacement dispositifs', 'mission-locale-le-havre-estuaire-littoral'),
+			'id'            => 'proposals-placeholder',
+			'description'   => esc_html__('Ajouter les dispositifs de la ML ici.', 'mission-locale-le-havre-estuaire-littoral'),
+			'before_widget' => '<div class="proposals-item">',
+			'after_widget'  => '</div>',
 		)
 	);
 }

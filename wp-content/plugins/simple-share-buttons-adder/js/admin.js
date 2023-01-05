@@ -478,14 +478,7 @@ var SimpleShareButtonsAdder = ( function( $, wp ) {
 
             // Add class to preview when scrolled to.
             $( window ).on( 'scroll', function(){
-                var stickyTop = $( '#ssba-preview-title' ).offset().top,
-                    stickyPlusTop = $( '#ssba-preview-title-2' ).offset().top;
-
-                if ( $( window ).scrollTop() >= stickyTop ) {
-                    $( '.master-ssba-prev-wrap, #ssba-preview-1' ).addClass( 'ssba-sticky' );
-                } else {
-                    $( '.master-ssba-prev-wrap, #ssba-preview-1' ).removeClass( 'ssba-sticky' );
-                }
+                var stickyPlusTop = $( '#ssba-preview-title-2' ).offset().top;
 
                 if ( $( window ).scrollTop() >= stickyPlusTop ) {
                     $( '.master-ssba-prev-wrap2, #ssba-preview' ).addClass( 'ssba-sticky' );
@@ -742,7 +735,22 @@ var SimpleShareButtonsAdder = ( function( $, wp ) {
 		 * @param target
 		 */
 		preview: function( selection, target ) {
-			$( target ).attr( 'class', 'ssbp-wrap ssba-sticky ssbp--theme-' + selection );
+			const theTarget = document.querySelector( target );
+
+            if ( theTarget ) {
+                theTarget.classList.remove('ssbp--theme-11');
+                theTarget.classList.remove('ssbp--theme-10');
+                theTarget.classList.remove('ssbp--theme-9');
+                theTarget.classList.remove('ssbp--theme-8');
+                theTarget.classList.remove('ssbp--theme-7');
+                theTarget.classList.remove('ssbp--theme-6');
+                theTarget.classList.remove('ssbp--theme-5');
+                theTarget.classList.remove('ssbp--theme-4');
+                theTarget.classList.remove('ssbp--theme-3');
+                theTarget.classList.remove('ssbp--theme-2');
+                theTarget.classList.remove('ssbp--theme-1');
+                theTarget.classList.add('ssbp--theme-' + selection );
+            }
 		},
 
         /**
@@ -978,7 +986,7 @@ var SimpleShareButtonsAdder = ( function( $, wp ) {
                 iconColorBar = $( '#ssba_bar_icon_color' ).val(),
                 iconColorHoverBar = $( '#ssba_bar_icon_hover_color' ).val(),
                 buttonColorHoverBar = $( '#ssba_bar_button_hover_color' ).val(),
-                newStyle = '#ssba-preview .ssbp-btn:before{ font-size: ' + iconSize + 'px; line-height: ' + iconLineHeight + 'px; color: ' + iconColor + '; } #ssba-preview .ssbp-btn:hover::before { color: ' + iconColorHover + '; } #ssba-preview .ssbp-btn:hover { background: ' + buttonColorHover + '!important; } #ssba-preview-2 .ssbp-btn:before{ font-size: ' + iconSizeBar + 'px; line-height: ' + iconLineHeightBar + 'px; color: ' + iconColorBar + '; } #ssba-preview-2 .ssbp-btn:hover::before { color: ' + iconColorHoverBar + '; } #ssba-preview-2 .ssbp-btn:hover { background: ' + buttonColorHoverBar + '!important; }';
+                newStyle = '#ssba-preview .ssbp-btn svg, #ssba-preview .ssbp-btn svg path { width: ' + iconSize + 'px; height: ' + iconSize + 'px; line-height: ' + iconLineHeight + 'px; fill: ' + iconColor + '; } #ssba-preview .ssbp-btn:hover svg,  #ssba-preview .ssbp-btn:hover svg path { fill: ' + iconColorHover + '!important; } #ssba-preview .ssbp-btn:hover { background: ' + buttonColorHover + '!important; } #ssba-preview-2 .ssbp-btn svg { width: ' + iconSizeBar + 'px; height: ' + iconSizeBar + 'px; line-height: ' + iconLineHeightBar + 'px; fill: ' + iconColorBar + '; } #ssba-preview-2 .ssbp-btn:hover svg { fill: ' + iconColorHoverBar + '; } #ssba-preview-2 .ssbp-btn:hover { background: ' + buttonColorHoverBar + '!important; }';
 
             $( '#simple-share-buttons-adder-styles-inline-css' ).html( newStyle );
         },
