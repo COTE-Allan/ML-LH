@@ -3,7 +3,7 @@
 ?>
 
 <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
-    <input type="search" class="search-field" placeholder="Rechercher..." value name="s">
+    <input type="search" class="search-field" placeholder="Rechercher..." value name="s" required>
     <button type="submit" class="search-submit"><span class="dashicons dashicons-search"></span></button>
     <span class="dashicons dashicons-search close-icon"></span>
 </form>

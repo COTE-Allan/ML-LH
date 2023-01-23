@@ -165,6 +165,7 @@
 
                 @include for-desktop-up {
                     display: none;
+                    transition: width 200ms ease-in-out;
                 }
 
                 &:focus {

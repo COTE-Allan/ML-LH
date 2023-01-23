@@ -21,6 +21,7 @@
 
     &:hover {
         transform: scale($v) rotate($d);
+        cursor: pointer;
     }
 }
 

@@ -86,6 +86,7 @@ hr {
 	box-sizing: content-box;
 	height: 0;
 	overflow: visible;
+	border: none !important;
 }
 
 /**
@@ -460,8 +461,8 @@ body {
 
 hr {
 	background-color: #ccc;
-	border: 0;
-	height: 1px;
+	border: none;
+	height: 2px;
 	margin-bottom: 1.5em;
 }
 
