@@ -1,4 +1,18 @@
 .wpcf7-form {
+
+    & input,
+    textarea {
+        width: 90vw;
+
+        @include for-desktop-up {
+            width: 100%;
+        }
+    }
+
+    input[type="checkbox"] {
+        width: auto;
+    }
+
     & div {
         border-top: 1px solid rgba(0, 0, 0, 0.3);
         padding: 20px 0;

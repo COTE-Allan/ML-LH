@@ -232,9 +232,7 @@
 
     &-instagram {
         @include define-colors($red, white);
-        text-align: center;
         padding: 30px 20px;
-        text-align: center;
 
         @include for-desktop-up {
             padding: 45px 30px;

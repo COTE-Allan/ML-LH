@@ -5,10 +5,13 @@
 #
 # Note: if you want to stage/commit WP core files
 # you can delete this whole section/until Configuration.
+
+
 /wp-admin/
 /wp-content/index.php
 /wp-content/languages
 /wp-content/plugins
+!/wp-content/plugins/interactive-ml-map/
 /wp-content/themes/index.php
 /wp-content/uploads
 /wp-content/upgrade

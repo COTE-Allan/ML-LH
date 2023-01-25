@@ -2130,9 +2130,7 @@ aside#secondary .wp-block-embed__wrapper iframe {
 .site-main-instagram {
   background-color: #d60b52;
   color: white;
-  text-align: center;
   padding: 30px 20px;
-  text-align: center;
 }
 @media (min-width: 1200px) {
   .site-main-instagram {
@@ -2207,6 +2205,19 @@ aside#secondary .wp-block-embed__wrapper iframe {
 
 .wpcf7-form {
   margin-bottom: 50px;
+}
+.wpcf7-form input,
+.wpcf7-form textarea {
+  width: 90vw;
+}
+@media (min-width: 1200px) {
+  .wpcf7-form input,
+.wpcf7-form textarea {
+    width: 100%;
+  }
+}
+.wpcf7-form input[type=checkbox] {
+  width: auto;
 }
 .wpcf7-form div {
   border-top: 1px solid rgba(0, 0, 0, 0.3);
