@@ -1,6 +1,8 @@
 .wpcf7-form {
 
-    & input,
+    & input[type="text"],
+    input[type="email"],
+    input[type="number"],
     textarea {
         width: 90vw;
 
@@ -27,7 +29,11 @@
 
     & .pre_register_validation {
         @include button($purple, white);
-        font-size: 1.5rem;
+
+        @include for-desktop-up {
+            font-size: 1.5rem;
+        }
+
         vertical-align: middle;
 
         & span {

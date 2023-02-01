@@ -2206,12 +2206,16 @@ aside#secondary .wp-block-embed__wrapper iframe {
 .wpcf7-form {
   margin-bottom: 50px;
 }
-.wpcf7-form input,
+.wpcf7-form input[type=text],
+.wpcf7-form input[type=email],
+.wpcf7-form input[type=number],
 .wpcf7-form textarea {
   width: 90vw;
 }
 @media (min-width: 1200px) {
-  .wpcf7-form input,
+  .wpcf7-form input[type=text],
+.wpcf7-form input[type=email],
+.wpcf7-form input[type=number],
 .wpcf7-form textarea {
     width: 100%;
   }
@@ -2233,11 +2237,15 @@ aside#secondary .wp-block-embed__wrapper iframe {
   transition: background-color 200ms ease-in-out;
   padding: 10px;
   text-decoration: none;
-  font-size: 1.5rem;
   vertical-align: middle;
 }
 .wpcf7-form .pre_register_validation:hover {
   background-color: #8d164f;
+}
+@media (min-width: 1200px) {
+  .wpcf7-form .pre_register_validation {
+    font-size: 1.5rem;
+  }
 }
 .wpcf7-form .pre_register_validation span {
   height: 25px;
