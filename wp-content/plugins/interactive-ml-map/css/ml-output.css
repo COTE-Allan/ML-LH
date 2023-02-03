@@ -148,7 +148,7 @@
 }
 @media (min-width: 1200px) {
   .ml-map-ttl-txt {
-    font-size: 50px;
+    font-size: 45px;
   }
 }
 .ml-map-flex {
@@ -173,6 +173,11 @@
 }
 .ml-map-main-details {
   margin: 20px 0;
+}
+@media (min-width: 1200px) {
+  .ml-map-main-details {
+    width: 40vw;
+  }
 }
 .ml-map-main-details-container {
   display: flex;
@@ -256,10 +261,17 @@
 .ml-map-wrapper-marker {
   position: absolute;
   color: #d60b52;
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
   transition: transform 200ms ease-in-out, color 200ms ease-in-out;
+}
+@media (min-width: 900px) {
+  .ml-map-wrapper-marker {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
 }
 @media (min-width: 1200px) {
   .ml-map-wrapper-marker {

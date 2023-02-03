@@ -209,4 +209,9 @@
     .main-navigation.open {
         display: flex;
     }
+
+    .sub-menu {
+        display: flex;
+        flex-direction: column;
+    }
 }

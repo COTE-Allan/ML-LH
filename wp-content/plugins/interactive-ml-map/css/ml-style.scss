@@ -80,7 +80,7 @@
                 }
 
                 @include for-desktop-up {
-                    font-size: 50px;
+                    font-size: 45px;
                 }
             }
         }
@@ -108,6 +108,10 @@
 
             &-details {
                 margin: 20px 0;
+
+                @include for-desktop-up {
+                    width: 40vw;
+                }
 
                 &-container {
                     display: flex;
@@ -194,9 +198,15 @@
                 position: absolute;
                 color: $red;
                 $px: 40px;
-                font-size: $px * 0.8;
-                width: $px * 0.8;
-                height: $px * 0.8;
+                font-size: $px * 0.6;
+                width: $px * 0.6;
+                height: $px * 0.6;
+
+                @include for-tablet-landscape-up {
+                    font-size: $px * 0.7;
+                    width: $px * 0.7;
+                    height: $px * 0.7;
+                }
 
                 @include for-desktop-up {
                     font-size: $px;

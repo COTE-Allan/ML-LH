@@ -19,7 +19,7 @@
 
         @include for-desktop-up {
             justify-content: flex-start;
-            font-size: 50px;
+            font-size: 45px;
 
         }
 
@@ -231,7 +231,7 @@
 
 
     &-instagram {
-        @include define-colors($red, white);
+        @include define-colors($grey, $red);
         padding: 30px 20px;
 
         @include for-desktop-up {
@@ -275,25 +275,33 @@
             & .proposals-list-item .wp-block-group__inner-container {
                 width: 85vw;
                 margin: 20px 0;
-
+                text-align: center;
                 @include hovering-scale(1.1);
 
                 @include for-tablet-landscape-up {
+                    text-align: left;
                     width: auto;
                     height: 400px;
                     margin: 0 20px;
-
-
                 }
 
                 & figure {
                     height: 150px;
+                    @include make-it-flex(center, center, column, column);
+
+                    @include for-desktop-up {
+                        display: block;
+                    }
                 }
 
                 & img {
                     height: 100%;
                     object-fit: contain;
-                    width: 100%;
+                    width: 80%;
+
+                    @include for-desktop-up {
+                        width: 100%;
+                    }
                 }
 
                 & h3 {

@@ -1,12 +1,12 @@
 (function ($) {
   $(document).ready(function () {
     // REST API sous forme d'objets JSON
-    let link_antenna =
-      "https://" +
-      window.location.hostname +
-      "/wp-json/wp/v2/antenne?per_page=20";
-    // link_antenna =
-    //   "https://beta.ml-lehavre.fr/wp-json/wp/v2/antenne?per_page=20";
+    // let link_antenna =
+    //   "https://" +
+    //   window.location.hostname +
+    //   "/wp-json/wp/v2/antenne?per_page=20";
+    link_antenna =
+      "https://beta.ml-lehavre.fr/wp-json/wp/v2/antenne?per_page=20";
     let antenna_list;
     $.ajax({
       type: "GET",
@@ -14,6 +14,7 @@
       success: function (data) {
         antenna_list = data;
         $(".ml-map-main-details").show();
+        $(".ml-map-wrapper").show();
         $(".ml-map-main-loading").hide();
         // Affiche les informations de notre antenne par défaut au chargement de la page.
         editDetails(antenna_list[0]);
@@ -43,7 +44,8 @@
           let screen = $(window).width();
           if (screen < 900) {
             let offsets = $(".ml-map-main").offset();
-            $("html body").animate({ scrollTop: offsets.top }, "slow");
+            console.log(offsets);
+            $("html, body").animate({ scrollTop: offsets.top - 100 }, "slow");
           }
           return false;
         }

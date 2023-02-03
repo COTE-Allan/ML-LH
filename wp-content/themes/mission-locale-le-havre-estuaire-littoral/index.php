@@ -17,7 +17,7 @@ get_header();
 ?>
 <main id="primary" class="site-main">
     <?php
-    echo do_shortcode('[smartslider3 slider="2"]');
+    echo do_shortcode('[smartslider3 slider="3"]');
     ?>
     <div class="site-main-content">
         <div class="site-main-content-news">

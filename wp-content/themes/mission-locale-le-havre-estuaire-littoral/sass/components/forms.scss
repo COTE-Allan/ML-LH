@@ -11,6 +11,15 @@
         }
     }
 
+    .select2-container {
+        margin-top: 10px;
+        width: 100%;
+
+        @include for-desktop-up {
+            width: 300px;
+        }
+    }
+
     input[type="checkbox"] {
         width: auto;
     }
