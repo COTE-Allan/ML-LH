@@ -19,6 +19,7 @@
         // Affiche les informations de notre antenne par défaut au chargement de la page.
         editDetails(antenna_list[0]);
         loopingMarkers(antenna_list);
+        $(".ml-map-wrapper-marker#" + antenna_list[0].id).addClass("active");
       },
     });
     function loopingMarkers(data) {
@@ -38,6 +39,8 @@
     $(document).on("click", ".ml-map-wrapper-marker", function () {
       antenna_list.every((antenna) => {
         if ($(this)[0].id == antenna.id) {
+          $(".ml-map-wrapper-marker.active").removeClass("active");
+          $(this).addClass("active");
           editDetails(antenna);
           // Uniquement sur la version mobile et tablette:
           // Scroll effectué au clique sur nos marqueurs pour accèder aux informations de l'antenne.

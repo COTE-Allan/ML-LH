@@ -282,9 +282,13 @@
 }
 .ml-map-wrapper-marker:hover {
   transform: translateY(-10px);
-  z-index: 5;
+  z-index: 2;
   color: #95c11f;
   cursor: pointer;
+}
+.ml-map-wrapper-marker.active {
+  color: #95c11f;
+  transform: translateY(-10px);
 }
 
 /*# sourceMappingURL=ml-output.css.map */

@@ -15,12 +15,13 @@
     }
 
     & span.dashicons {
+        @include hwf(40px);
+
         @include for-desktop-up {
             width: 100%;
             height: 100%;
         }
 
-        font-size: 40px;
         color: rgba(0, 0, 0, 0.6);
     }
 
@@ -150,8 +151,13 @@
             }
 
             & .close-icon {
-                @include make-it-flex(center, center, row, row);
-                @include hovering-scale-rotate(1.1, -10deg);
+                display: none;
+
+                @include for-desktop-up {
+
+                    @include make-it-flex(center, center, row, row);
+                    @include hovering-scale-rotate(1.1, -10deg);
+                }
 
             }
 
@@ -181,7 +187,12 @@
                 background-color: transparent;
                 border: none;
                 padding: 0;
-                display: none;
+
+                @include for-desktop-up {
+
+                    display: none;
+                }
+
                 width: 40px;
                 height: 40px;
                 @include hovering-scale-rotate(1.1, -10deg);
