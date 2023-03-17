@@ -25,8 +25,7 @@
 <body <?php body_class(); ?>>
     <?php wp_body_open(); ?>
     <div id="page" class="site">
-        <a class="skip-link screen-reader-text"
-            href="#primary"><?php esc_html_e("Skip to content", "mission-locale-le-havre-estuaire-littoral"); ?></a>
+        <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e("Skip to content", "mission-locale-le-havre-estuaire-littoral"); ?></a>
 
         <header id="masthead" class="site-header">
 
@@ -35,7 +34,7 @@
                     <?php
                     the_custom_logo();
                     ?>
-                    <span class="dashicons dashicons-menu-alt3 mobile-open-menu"></span>
+                    <span class="dashicons dashicons-menu-alt2 mobile-open-menu"></span>
                 </div>
                 <nav class="main-navigation site-header-nav">
                     <?php
@@ -43,6 +42,7 @@
                         array(
                             "theme_location" => "menu-1",
                             "menu_id"        => "Navigation du header",
+                            "menu_class"     => "ml-dropdown-menu"
                         )
                     );
                     ?>
@@ -55,6 +55,7 @@
                     array(
                         "theme_location" => "menu-2",
                         "menu_id"        => "Blocs de couleurs du Header",
+                        "menu_class"     => "ml-blocs-menu"
                     )
                 );
                 ?>
@@ -62,11 +63,13 @@
         </header>
 
         <script>
-        let burger = document.querySelector(".mobile-open-menu");
-        let menus = document.querySelectorAll(".main-navigation");
-        burger.addEventListener("click", (event) => {
-            menus.forEach(menu => {
-                menu.classList.toggle("open")
+            let burger = document.querySelector(".mobile-open-menu");
+            let menus = document.querySelectorAll(".main-navigation");
+            burger.addEventListener("click", (event) => {
+                burger.classList.toggle("dashicons-menu-alt2")
+                burger.classList.toggle("dashicons-no-alt")
+                menus.forEach(menu => {
+                    menu.classList.toggle("open")
+                });
             });
-        });
         </script>

@@ -2,6 +2,7 @@
 --------------------------------------------- */
 .site-header {
     position: sticky;
+    font-family: 'Akrobat', sans-serif;
     top: 0;
     left: 0;
     z-index: 4;
@@ -28,7 +29,11 @@
     & .site-branding {
         @include make-it-flex(space-between, center, row, row);
 
-        padding: 10px 5px;
+        padding: 5px 10px;
+
+        @include for-desktop-up {
+            padding: 0;
+        }
 
         & img {
             width: 40vw;
@@ -41,6 +46,11 @@
                 width: 15vw
             }
 
+            @include for-desktop-up {
+                width: 170px;
+                padding-left: 10px;
+            }
+
             @include hovering-scale(1.1);
 
         }
@@ -49,20 +59,12 @@
             padding-right: 10px;
         }
 
-        @include for-desktop-up {
-            padding-left: 10px;
 
-            & img {
-                width: 15vw;
-            }
-        }
     }
 
     & a {
         color: black;
         text-decoration: none;
-
-
     }
 
     &-main {
@@ -70,9 +72,9 @@
     }
 
     &-nav {
-        padding: 10px 20px;
 
         @include for-desktop-up {
+            padding: 0px 20px;
             @include make-it-flex(initial, center, row, row);
         }
 
@@ -94,15 +96,19 @@
         @include for-desktop-up {
             display: flex;
             flex-direction: row;
-            width: 45vw;
+            width: 40vw;
         }
-
 
 
         & .menu-item {
             @include make-it-flex(center, center, row, row);
             flex: 1 1 0px;
-            height: 100px;
+            height: 80px;
+            padding: 10px;
+
+            @include for-desktop-up {
+                padding: 0;
+            }
 
             & a {
                 color: white;
@@ -126,10 +132,11 @@
         & .search-form {
             background-color: $orange;
             @include make-it-flex(center, center, row, row);
-            padding: 20px 0;
+            padding: 10px 0;
 
             @include for-desktop-up {
                 width: 100px;
+                padding: 20px 0;
 
                 &.open {
                     width: auto;
@@ -224,5 +231,147 @@
     .sub-menu {
         display: flex;
         flex-direction: column;
+    }
+
+    .main-navigation {
+
+        display: none;
+        position: relative;
+
+        @include for-desktop-up {
+            display: flex;
+            width: 60vw;
+            height: 80px;
+        }
+
+        & ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        & ul.ml-blocs-menu {
+            margin: 0;
+            height: 100%;
+            padding: 0;
+
+            @include for-desktop-up {
+                & li {
+                    height: 100%;
+                }
+            }
+
+        }
+
+        & ul.ml-dropdown-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding-left: 0;
+            flex-direction: column;
+            justify-content: space-between;
+
+            @include for-desktop-up {
+                height: 80px;
+                flex-direction: row;
+            }
+
+            &>li {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 10px 0;
+                width: 100vw;
+
+                @include for-desktop-up {
+                    margin: 0;
+                    width: auto;
+                    margin: 0 50px;
+                }
+
+                &>a {
+                    font-weight: 600;
+                    transition: color 150ms ease-in-out;
+
+                    @include for-desktop-up {
+                        width: 100%;
+
+                    }
+
+                    &:hover {
+                        color: lighten($color: black, $amount: 20%);
+                    }
+                }
+            }
+
+            &>li>ul {
+                background-color: white;
+                border-top: $purple 3px solid;
+                overflow-y: scroll;
+                max-height: calc(100vh - 200px);
+                @include make-it-flex(space-between, space-between, column, row);
+                display: none;
+                width: 100vw;
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 5px;
+                top: 100%;
+                left: 0;
+                padding: 5px;
+                display: none;
+                position: absolute;
+                z-index: 5;
+
+                @include for-desktop-up {
+                    width: 100%;
+                    flex-wrap: wrap;
+                    max-height: auto;
+                    overflow: auto;
+                }
+
+                &>li {
+                    flex: 0 1 45%;
+                    margin: 10px;
+
+                    &>a {
+                        padding-bottom: 3px;
+                        border-bottom: 2px rgb(184, 184, 184) solid;
+                        font-weight: 600;
+                        color: $purple;
+                        transition: color 150ms ease-in-out;
+
+                        &:hover {
+                            color: lighten($color: $purple, $amount: 20%);
+                        }
+                    }
+                }
+
+                & li {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: initial;
+                }
+
+                & ul {
+                    display: flex;
+                    position: relative;
+                    top: auto;
+                    left: auto;
+                    background-color: transparent;
+                    box-shadow: none;
+                    width: auto;
+                }
+            }
+
+
+
+            & li:hover>.sub-menu {
+                display: flex;
+
+            }
+
+
+
+
+
+        }
     }
 }

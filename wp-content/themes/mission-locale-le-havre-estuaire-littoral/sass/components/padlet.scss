@@ -1,0 +1,38 @@
+#job-manager-job-dashboard {
+
+    & thead {
+
+        background-color: $grey;
+        border-radius: 2px;
+
+        & .job_title {
+            text-align: start;
+        }
+
+        & th {
+            padding: 5px
+        }
+    }
+
+    & tbody {
+        & tr {
+            @include two-bg-colors($grey, white);
+
+        }
+    }
+
+    & tfoot {
+        margin-top: 10px;
+
+        & td {
+            text-align: center;
+
+            @include button($purple, white);
+
+            & a {
+                color: white;
+                text-decoration: none;
+            }
+        }
+    }
+}

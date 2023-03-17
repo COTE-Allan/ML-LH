@@ -1,10 +1,18 @@
 /* Ajout de la font Akrobat */
 @import url('http://fonts.cdnfonts.com/css/akrobat');
-
+@import url('https://fonts.cdnfonts.com/css/muli');
 
 /* General
 --------------------------------------------- */
 .site {
+    font-family: 'Muli', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
     font-family: 'Akrobat', sans-serif;
 }
 
@@ -33,6 +41,8 @@ body {
 @import "components/homepage.scss";
 
 @import "components/forms.scss";
+
+@import "components/padlet.scss";
 
 
 /* Autres
@@ -110,4 +120,9 @@ body {
     & a {
         color: white;
     }
+}
+
+
+.wp-block-hyperlink-group {
+    text-decoration: none;
 }

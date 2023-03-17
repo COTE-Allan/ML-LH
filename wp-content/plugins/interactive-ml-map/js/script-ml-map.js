@@ -28,11 +28,18 @@
           '<span id="' +
           antenna.id +
           '" class="ml-map-wrapper-marker dashicons dashicons-location"></span>';
+        let modal =
+          '<span id="modal-' +
+          antenna.id +
+          '" class="ml-map-wrapper-marker-modal">' +
+          antenna.name +
+          "</span>";
         let y = antenna["meta"]["ml-longitude"][0];
         let x = antenna["meta"]["ml-latitude"][0];
         $(marker)
           .appendTo(".ml-map-wrapper")
           .css({ top: parseInt(y) + "%", left: parseInt(x) + "%" });
+        $(modal).appendTo("#" + antenna.id);
       });
     }
     // Affiche les informations des antennes au clique sur les marqueurs.

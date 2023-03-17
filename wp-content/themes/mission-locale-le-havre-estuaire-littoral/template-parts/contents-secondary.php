@@ -13,32 +13,28 @@
 <!-- #post-<?php the_ID(); ?> -->
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="entry-header">
-        <?php mission_locale_le_havre_estuaire_littoral_post_thumbnail(); ?>
+        <a href="<?= the_permalink();?>">
 
-        <a href="<?= the_permalink();
-                    ?>">
             <?php
             the_title('<h1 class="entry-title">', '</h1>');
-
             ?>
         </a>
-        <?php
 
+        <?php
         if ('post' === get_post_type()) :
         ?>
-            <div class="entry-meta">
-                <?php
+        <div class="entry-meta">
+            <?php
                 mission_locale_le_havre_estuaire_littoral_posted_on();
                 ?>
-            </div>
+        </div>
         <?php endif; ?>
     </header>
+    <a href="<?= the_permalink();?>">
 
+        <span class="dashicons dashicons-plus-alt2 mobile-open-menu"></span>
 
-    <div class="entry-content">
-        <?php
-        the_excerpt();
-        ?>
-    </div>
+    </a>
+
 
 </article>

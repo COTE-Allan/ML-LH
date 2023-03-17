@@ -1,6 +1,27 @@
 /* Homepage
 --------------------------------------------- */
+
+
 .site-main {
+    & section.home-section {
+        padding: 40px 25px;
+
+        @include for-tablet-portrait-up {
+            padding: 40px 45px;
+
+        }
+
+        @include for-tablet-landscape-up {
+            padding: 40px 150px;
+        }
+
+        @include for-desktop-up {
+            padding: 40px 100px;
+
+        }
+
+    }
+
     & h2.secondary-title {
         @include make-it-flex(center, center, row, row);
 
@@ -19,7 +40,7 @@
 
         @include for-desktop-up {
             justify-content: flex-start;
-            font-size: 45px;
+            // font-size: 45px;
 
         }
 
@@ -36,28 +57,20 @@
             }
 
             @include for-desktop-up {
-                @include hwf(80px);
+                // @include hwf(80px);
             }
         }
     }
 
     &-content {
-        margin: 40px 25px;
         @include make-it-flex(initial, initial, column, row);
 
 
-        @include for-tablet-portrait-up {
-            margin: 40px 45px;
 
-        }
 
-        @include for-tablet-landscape-up {
-            margin: 40px 150px;
-
-        }
 
         @include for-desktop-up {
-            margin: 40px 90px;
+
             justify-content: space-around;
         }
 
@@ -74,23 +87,44 @@
 
         &-news {
             @include for-desktop-up {
-                width: 40vw;
+                width: 45%;
                 margin: 0 20px;
 
             }
 
             & article {
-                @include for-desktop-up {
-                    width: 90%;
+                display: flex;
+                align-items: center;
+                border-top: 2px rgba(130, 130, 130, 0.519) solid;
+                margin: 15px 0;
+                padding: 5px 0;
+
+                & a {
+                    text-decoration: none;
                 }
 
-                margin-bottom: 30px;
-                // padding-top: 5px;
-
-                transition: background-color 150ms ease-in;
 
                 &:hover {
-                    background-color: $grey;
+                    & header {
+                        border-left: 3px $purple solid;
+                    }
+
+                    & .dashicons {
+                        animation: rotate-center 0.6s ease-in-out both;
+                    }
+                }
+
+                & header {
+                    transition: background-color 150ms ease-in, border-left 150ms ease-in;
+                    width: 100%;
+
+                }
+
+                & .dashicons {
+                    margin: 0 15px;
+                    font-size: 30px;
+                    height: 30px;
+                    width: 30px;
                 }
             }
 
@@ -100,9 +134,8 @@
 
             article h1 {
                 font-size: 20px;
-
-                margin: 10px;
-
+                margin: 0 10px;
+                padding-top: 5px;
                 // @include for-desktop-up {
                 //     @include quadruple-margin(10px, 10, 10px, 0);
                 // }
@@ -124,6 +157,7 @@
                 position: relative;
                 top: 10px;
                 right: 5px;
+                font-size: 17px;
 
                 @include for-desktop-up {
                     width: 30%;
@@ -132,21 +166,26 @@
                     left: 10px;
                 }
 
-
                 @include button($purple, white);
 
             }
 
             & p {
                 @include make-it-flex(initial, initial, column, column);
+                font-size: 17px;
             }
 
             & .firstpost {
+                display: block;
                 background-color: $grey;
                 width: 100%;
+                padding: 0;
+                border: none;
 
                 &:hover {
-                    background-color: darken($grey, 5%);
+                    & header {
+                        border-left: none;
+                    }
                 }
 
                 & img {
@@ -156,7 +195,7 @@
                 }
 
                 & h1 {
-                    font-size: 30px;
+                    font-size: 25px;
 
                 }
             }
@@ -164,10 +203,13 @@
 
         &-offers {
             @include for-desktop-up {
-                width: 40vw;
+                width: 30%;
                 margin: 0 20px;
 
             }
+
+            font-family: 'Akrobat',
+            sans-serif;
 
             & .offers-item {
                 & hr {
@@ -187,7 +229,7 @@
                     flex: 25%;
 
                     @include for-tablet-landscape-up {
-                        flex: 35%;
+                        flex: 40%;
 
                     }
 
@@ -232,10 +274,8 @@
 
     &-instagram {
         @include define-colors($grey, $red);
-        padding: 30px 20px;
 
         @include for-desktop-up {
-            padding: 45px 30px;
             text-align: start
         }
 
@@ -243,18 +283,15 @@
     }
 
     &-proposals {
-        padding: 30px 20px;
 
-        @include for-desktop-up {
-            padding: 50px 30px;
-        }
+
 
 
         & .proposals-list {
 
 
             &>.wp-block-group__inner-container {
-                @include make-it-flex(space-around, center, column, row);
+                @include make-it-flex(space-around, flex-start, column, row);
                 flex-wrap: nowrap;
 
                 @include for-tablet-landscape-up {
@@ -266,7 +303,7 @@
                 color: black;
 
                 @include for-tablet-landscape-up {
-                    flex: 0 1 22%;
+                    flex: 0 1 25%;
 
 
                 }
@@ -281,7 +318,7 @@
                 @include for-tablet-landscape-up {
                     text-align: left;
                     width: auto;
-                    height: 400px;
+                    min-height: 400px;
                     margin: 0 20px;
                 }
 
@@ -305,7 +342,7 @@
                 }
 
                 & h3 {
-                    font-size: 30px;
+                    font-size: 25px;
                     margin: 0;
                 }
 

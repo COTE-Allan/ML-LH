@@ -11,7 +11,7 @@ function create_ml_map()
 <div class="ml-map">
     <div class="ml-map-ttl">
         <span class="ml-map-ttl-icon dashicons dashicons-location"></span>
-        <h2 class="ml-map-ttl-txt">
+        <h2 class="ml-map-ttl-txt" id="mlmap">
             trouve la mission locale la plus proche de chez toi
         </h2>
     </div>
@@ -25,7 +25,7 @@ function create_ml_map()
                     <span class="ml-map-main-details-container-adress"></span>
                     <span class="ml-map-main-details-container-phone"></span>
                     <p class="ml-map-main-details-container-dsc"></p>
-                    <a class="ml-map-main-details-container-link" href=""><span
+                    <a class="ml-map-main-details-container-link" href="" target="_blank"><span
                             class="ml-map-main-details-container-link-icon dashicons dashicons-admin-links"></span>voir
                         sur google maps</a>
                 </div>

@@ -30,11 +30,6 @@ if (function_exists('yoast_breadcrumb')) {
             the_title();
             ?>
         </h1>
-        <div class="site-single-banner-content-details">
-            <?php
-            echo get_the_date('j F, Y');
-            ?>
-        </div>
     </div>
     <div class="site-single-banner-background">
         <?php

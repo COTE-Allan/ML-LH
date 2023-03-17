@@ -47,6 +47,7 @@
 html {
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
 }
 
 /* Sections
@@ -73,6 +74,13 @@ main {
 h1 {
 	font-size: 2em;
 	margin: 0.67em 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	scroll-margin-top: 90px;
 }
 
 /* Grouping content
@@ -631,61 +639,6 @@ textarea {
 
 /* Navigation
 --------------------------------------------- */
-.main-navigation {
-	display: none;
-	width: 100%;
-
-	@include for-desktop-up {
-		display: block;
-	}
-}
-
-.main-navigation ul {
-	// display: none;
-	list-style: none;
-	margin: 0;
-	padding-left: 0;
-}
-
-.main-navigation ul ul {
-	box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
-	float: left;
-	position: absolute;
-	top: 100%;
-	left: -999em;
-	z-index: 99999;
-	padding: 10px 0;
-	background-color: white;
-}
-
-.main-navigation ul ul ul {
-	top: 100%;
-	left: -999em;
-}
-
-.main-navigation ul ul li:hover>ul,
-.main-navigation ul ul li.focus>ul {
-	display: block;
-	left: auto;
-}
-
-.main-navigation ul ul a {
-	width: 350px;
-}
-
-.main-navigation ul li:hover>ul,
-.main-navigation ul li.focus>ul {
-	left: auto;
-}
-
-.main-navigation li {
-	position: relative;
-}
-
-.main-navigation a {
-	display: block;
-	text-decoration: none;
-}
 
 /* Small menu. */
 .menu-toggle,

@@ -252,11 +252,14 @@ add_filter('excerpt_length', 'my_excerpt_length');
 add_filter('submit_job_form_fields', 'custom_submit_job_form_fields_dm');
 function custom_submit_job_form_fields_dm($fields)
 {
-	// in this example, we remove the job_tags field
+	unset($fields['account']['logged_in']);
 	unset($fields['company']['company_website']);
 	unset($fields['company']['company_video']);
 	unset($fields['company']['company_tagline']);
 	unset($fields['company']['company_twitter']);
+	unset($fields['company']['company_logo']);
+	unset($fields['company']['company_name']);
+
 
 
 	// And return the modified fields

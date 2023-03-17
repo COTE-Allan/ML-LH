@@ -27,6 +27,7 @@ aside#secondary {
 
             & div {
                 @include make-it-flex(initial, initial, column, column);
+                font-size: 18px;
             }
 
             & .moretag {

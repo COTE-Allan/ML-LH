@@ -90,7 +90,7 @@
 }
 @media (min-width: 1200px) {
   .ml-map {
-    padding: 30px;
+    padding: 30px 100px;
   }
 }
 .ml-map h1,
@@ -124,13 +124,6 @@
     font-size: 70px;
   }
 }
-@media (min-width: 1200px) {
-  .ml-map-ttl-icon {
-    height: 80px;
-    width: 80px;
-    font-size: 80px;
-  }
-}
 .ml-map-ttl-txt {
   text-transform: uppercase;
   vertical-align: middle;
@@ -144,11 +137,6 @@
 @media (min-width: 900px) {
   .ml-map-ttl-txt {
     font-size: 40px;
-  }
-}
-@media (min-width: 1200px) {
-  .ml-map-ttl-txt {
-    font-size: 45px;
   }
 }
 .ml-map-flex {
@@ -219,11 +207,6 @@
     height: 350px;
   }
 }
-@media (min-width: 1200px) {
-  .ml-map-main-details-img {
-    height: 260px;
-  }
-}
 .ml-map-wrapper {
   position: relative;
   margin-top: 20px;
@@ -261,6 +244,7 @@
 .ml-map-wrapper-marker {
   position: absolute;
   color: #d60b52;
+  border-radius: 50%;
   font-size: 24px;
   width: 24px;
   height: 24px;
@@ -280,14 +264,34 @@
     height: 40px;
   }
 }
+.ml-map-wrapper-marker-modal {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 15px;
+  display: none;
+  font-family: "Akrobat", sans-serif;
+  font-size: 17px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  transform: translateX(-50%) translateY(-180%);
+  clear: both;
+  overflow: hidden;
+  white-space: nowrap;
+}
 .ml-map-wrapper-marker:hover {
   transform: translateY(-10px);
-  z-index: 2;
+  z-index: 3;
   color: #95c11f;
   cursor: pointer;
 }
+.ml-map-wrapper-marker:hover .ml-map-wrapper-marker-modal {
+  display: inline-block;
+}
 .ml-map-wrapper-marker.active {
   color: #95c11f;
+  z-index: 2;
   transform: translateY(-10px);
 }
 

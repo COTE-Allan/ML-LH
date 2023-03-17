@@ -11,8 +11,8 @@
 ?>
 <!-- #post-<?php the_ID(); ?> -->
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <div class="entry-content">
-        <?php
+	<div class="entry-content">
+		<?php
 		the_content(
 			sprintf(
 				wp_kses(
@@ -27,7 +27,7 @@
 			)
 		);
 		?>
-        <?php
+		<?php
 		the_post_navigation(
 			array(
 				'prev_text' => '<span class="nav-subtitle">' . esc_html__('Article précédent:', 'mission-locale-le-havre-estuaire-littoral') . '</span> <span class="nav-title">%title</span>',
@@ -35,5 +35,5 @@
 			)
 		);
 		?>
-    </div>
+	</div>
 </article>

@@ -34,7 +34,7 @@
         }
 
         @include for-desktop-up {
-            padding: 30px;
+            padding: 30px 100px;
         }
 
         & h1,
@@ -62,7 +62,7 @@
                 }
 
                 @include for-desktop-up {
-                    @include hwf(80px);
+                    // @include hwf(80px);
                 }
             }
 
@@ -80,7 +80,7 @@
                 }
 
                 @include for-desktop-up {
-                    font-size: 45px;
+                    // font-size: 45px;
                 }
             }
         }
@@ -152,10 +152,6 @@
                     @include for-tablet-landscape-up {
                         height: 350px;
                     }
-
-                    @include for-desktop-up {
-                        height: 260px;
-                    }
                 }
             }
         }
@@ -194,9 +190,12 @@
                 @include for-desktop-up {}
             }
 
+
+
             &-marker {
                 position: absolute;
                 color: $red;
+                border-radius: 50%;
                 $px: 40px;
                 font-size: $px * 0.6;
                 width: $px * 0.6;
@@ -217,15 +216,39 @@
                 transition: transform 200ms ease-in-out,
                 color 200ms ease-in-out;
 
+                &-modal {
+                    background-color: white;
+                    border-radius: 5px;
+                    padding: 5px 15px;
+                    display: none;
+                    font-family: 'Akrobat', sans-serif;
+                    font-size: 17px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    z-index: 3;
+                    transform: translateX(-50%) translateY(-180%);
+                    clear: both;
+                    overflow: hidden;
+                    white-space: nowrap;
+                }
+
                 &:hover {
                     transform: translateY(-10px);
-                    z-index: 2;
+                    z-index: 3;
                     color: $green;
                     cursor: pointer;
+
+                    & .ml-map-wrapper-marker-modal {
+                        display: inline-block;
+
+                    }
                 }
 
                 &.active {
+
                     color: $green;
+                    z-index: 2;
                     transform: translateY(-10px);
                 }
             }

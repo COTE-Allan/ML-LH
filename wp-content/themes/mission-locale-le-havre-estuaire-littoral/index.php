@@ -19,7 +19,7 @@ get_header();
     <?php
     echo do_shortcode('[smartslider3 slider="3"]');
     ?>
-    <div class="site-main-content">
+    <section class="site-main-content home-section">
         <div class="site-main-content-news">
             <h2>Actualités</h2>
             <hr />
@@ -29,40 +29,44 @@ get_header();
 
                 if (is_home() && !is_front_page()) :
             ?>
-            <header>
-                <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
-            </header>
+                    <header>
+                        <h1 class="page-title screen-reader-text"><?php single_post_title(); ?></h1>
+                    </header>
             <?php
                 endif;
                 while (have_posts()) :
                     $count++; //increment the variable by 1 each time the loop executes
-                    if ($count > 3) {
-                        break;
+                    if ($count > 1) {
+                        if ($count > 3) {
+                            break;
+                        }
+                        the_post();
+                        get_template_part('template-parts/contents-secondary', get_post_type());
+                    } else {
+                        the_post();
+                        get_template_part('template-parts/contents', get_post_type());
                     }
-                    the_post();
-                    get_template_part('template-parts/contents', get_post_type());
                 endwhile;
             else :
                 get_template_part('template-parts/content', 'none');
             endif;
             ?>
-            <a href=""></a>
         </div>
         <div class="site-main-content-offers">
             <?php dynamic_sidebar('offers-placeholder'); ?>
         </div>
-    </div>
+    </section>
     <div class="site-main-map">
         <?= do_shortcode('[sc-ml-map]');  ?>
+        <section class="site-main-proposals home-section">
+            <?php dynamic_sidebar('proposals-placeholder'); ?>
+        </section>
     </div>
-    <div class="site-main-proposals">
-        <?php dynamic_sidebar('proposals-placeholder'); ?>
-    </div>
-    <div class="site-main-instagram">
+    <section class="site-main-instagram home-section">
         <h2 class="secondary-title"> <span class="dashicons dashicons-instagram"></span> Suivez-nous sur Instagram !
         </h2>
         <?= do_shortcode('[instagram-feed feed=1]')  ?>
-    </div>
+    </section>
 </main>
 
 
