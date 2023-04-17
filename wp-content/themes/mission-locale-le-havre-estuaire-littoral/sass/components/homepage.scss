@@ -117,6 +117,7 @@
                 & header {
                     transition: background-color 150ms ease-in, border-left 150ms ease-in;
                     width: 100%;
+                    font-size: 15px;
 
                 }
 
@@ -287,33 +288,29 @@
 
 
 
-        & .proposals-list {
 
+        & .wp-block-embed__wrapper {
+            @include make-it-flex(center, center, column, column);
 
-            &>.wp-block-group__inner-container {
-                @include make-it-flex(space-around, flex-start, column, row);
-                flex-wrap: nowrap;
+        }
 
-                @include for-tablet-landscape-up {
-                    flex-direction: row;
-                }
-            }
+        & .wp-block-group__inner-container {
+            @include make-it-flex(space-around, flex-start, column, row);
+            flex-wrap: nowrap;
 
-            & .wp-block-hyperlink-group {
+            & .wp-block-tiptip-hyperlink-group-block {
+                width: 85vw;
+                margin: 20px 0;
+                text-align: center;
+                @include hovering-scale(1.1);
                 color: black;
+                text-decoration: none;
 
                 @include for-tablet-landscape-up {
                     flex: 0 1 25%;
 
 
                 }
-            }
-
-            & .proposals-list-item .wp-block-group__inner-container {
-                width: 85vw;
-                margin: 20px 0;
-                text-align: center;
-                @include hovering-scale(1.1);
 
                 @include for-tablet-landscape-up {
                     text-align: left;
@@ -328,6 +325,16 @@
 
                     @include for-desktop-up {
                         display: block;
+                    }
+                }
+
+                & p {
+                    font-size: 17px !important;
+
+                    @include for-tablet-or-below {
+                        width: 80%;
+                        text-align: center;
+                        margin: auto;
                     }
                 }
 
@@ -348,6 +355,10 @@
 
             }
         }
+
+
+
+
 
 
 

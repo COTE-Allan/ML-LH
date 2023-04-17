@@ -227,10 +227,15 @@
                     top: 50%;
                     left: 50%;
                     z-index: 3;
-                    transform: translateX(-50%) translateY(-180%);
-                    clear: both;
-                    overflow: hidden;
-                    white-space: nowrap;
+                    transform: translateX(-50%) translateY(-50%);
+
+                    @include for-desktop-up {
+                        transform: translateX(-50%) translateY(-180%);
+
+                        clear: both;
+                        overflow: hidden;
+                        white-space: nowrap;
+                    }
                 }
 
                 &:hover {

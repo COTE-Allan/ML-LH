@@ -1,4 +1,4 @@
-@import url("http://fonts.cdnfonts.com/css/akrobat");
+@import url("https://fonts.cdnfonts.com/css/akrobat");
 @import url("https://fonts.cdnfonts.com/css/muli");
 @keyframes slide-in-top {
   0% {
@@ -1426,6 +1426,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 @media (min-width: 1200px) {
   .site-footer-nav ul {
@@ -1569,7 +1570,7 @@ body {
 .site-footer-question a span {
   font-size: 17px;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 @media (min-width: 1200px) {
   .site-footer-question a span {
@@ -1580,7 +1581,7 @@ body {
   margin: 0 !important;
 }
 .site-footer-partners {
-  background-color: #F2F2F2;
+  background-color: rgb(247, 247, 247);
   padding: 15px 5px;
 }
 @media (min-width: 1200px) {
@@ -1741,15 +1742,27 @@ aside#secondary {
 }
 aside#secondary h2 {
   text-transform: uppercase;
+  margin: 15px 0;
+  margin-top: 30px;
 }
 aside#secondary ul {
   margin: 0;
 }
+aside#secondary hr,
+aside#secondary .widget.widget_block {
+  margin-bottom: 15px;
+}
 aside#secondary .wp-block-latest-posts__list li {
+  border-bottom: grey 1px solid;
+  padding: 5px 0;
+  transition: transform 100ms ease-in-out;
   padding-top: 10px;
   padding-bottom: 0;
   padding-left: 10px;
   padding-right: 0;
+}
+aside#secondary .wp-block-latest-posts__list li:hover {
+  transform: translateX(-10px);
 }
 aside#secondary .wp-block-latest-posts__list li a {
   white-space: nowrap;
@@ -1757,6 +1770,7 @@ aside#secondary .wp-block-latest-posts__list li a {
   text-overflow: ellipsis;
   width: 100%;
   display: inline-block;
+  font-size: 18px;
 }
 aside#secondary .wp-block-latest-posts__list li div {
   display: flex;
@@ -1770,34 +1784,22 @@ aside#secondary .wp-block-latest-posts__list li div {
     flex-direction: column;
   }
 }
-aside#secondary .wp-block-latest-posts__list li .moretag {
+aside#secondary .wp-block-latest-posts__list li .wp-block-latest-posts__post-excerpt {
   font-size: 15px;
+}
+aside#secondary .wp-block-latest-posts__list li .moretag {
+  font-size: 13px;
   text-align: center;
   margin-top: 10px;
-  align-self: flex-end;
-  position: relative;
-  top: 5px;
-  right: 25px;
   background-color: #a3195b;
   color: white;
   transition: background-color 200ms ease-in-out;
   padding: 10px;
   text-decoration: none;
 }
-@media (min-width: 1200px) {
-  aside#secondary .wp-block-latest-posts__list li .moretag {
-    width: 30%;
-  }
-}
 aside#secondary .wp-block-latest-posts__list li .moretag:hover {
   background-color: #8d164f;
   cursor: pointer;
-}
-aside#secondary .wp-block-latest-posts__list li:nth-child(even) {
-  background-color: white;
-}
-aside#secondary .wp-block-latest-posts__list li:nth-child(odd) {
-  background-color: #F2F2F2;
 }
 aside#secondary .wp-block-latest-posts__list a {
   font-size: 22px;
@@ -1832,15 +1834,11 @@ aside#secondary .wp-block-button a {
   justify-content: initial;
   align-items: center;
   flex-direction: column;
+  font-size: 20px;
 }
 @media (min-width: 1200px) {
   aside#secondary .wp-block-button a {
     flex-direction: column;
-  }
-}
-@media (max-width: 900px) {
-  aside#secondary .wp-block-button a {
-    font-size: 20px !important;
   }
 }
 aside#secondary .wp-block-button a span {
@@ -2150,6 +2148,7 @@ aside#secondary .wp-block-embed__wrapper iframe {
 .site-main-content-news article header {
   transition: background-color 150ms ease-in, border-left 150ms ease-in;
   width: 100%;
+  font-size: 15px;
 }
 .site-main-content-news article .dashicons {
   margin: 0 15px;
@@ -2302,7 +2301,18 @@ aside#secondary .wp-block-embed__wrapper iframe {
     text-align: start;
   }
 }
-.site-main-proposals .proposals-list > .wp-block-group__inner-container {
+.site-main-proposals .wp-block-embed__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+@media (min-width: 1200px) {
+  .site-main-proposals .wp-block-embed__wrapper {
+    flex-direction: column;
+  }
+}
+.site-main-proposals .wp-block-group__inner-container {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -2310,42 +2320,36 @@ aside#secondary .wp-block-embed__wrapper iframe {
   flex-wrap: nowrap;
 }
 @media (min-width: 1200px) {
-  .site-main-proposals .proposals-list > .wp-block-group__inner-container {
+  .site-main-proposals .wp-block-group__inner-container {
     flex-direction: row;
   }
 }
-@media (min-width: 900px) {
-  .site-main-proposals .proposals-list > .wp-block-group__inner-container {
-    flex-direction: row;
-  }
-}
-.site-main-proposals .proposals-list .wp-block-hyperlink-group {
-  color: black;
-}
-@media (min-width: 900px) {
-  .site-main-proposals .proposals-list .wp-block-hyperlink-group {
-    flex: 0 1 25%;
-  }
-}
-.site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container {
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block {
   width: 85vw;
   margin: 20px 0;
   text-align: center;
   transition: transform 100ms ease-in-out;
+  color: black;
+  text-decoration: none;
 }
-.site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container:hover {
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
 @media (min-width: 900px) {
-  .site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block {
+    flex: 0 1 25%;
+  }
+}
+@media (min-width: 900px) {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block {
     text-align: left;
     width: auto;
     min-height: 400px;
     margin: 0 20px;
   }
 }
-.site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container figure {
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block figure {
   height: 150px;
   display: flex;
   justify-content: center;
@@ -2353,26 +2357,36 @@ aside#secondary .wp-block-embed__wrapper iframe {
   flex-direction: column;
 }
 @media (min-width: 1200px) {
-  .site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container figure {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block figure {
     flex-direction: column;
   }
 }
 @media (min-width: 1200px) {
-  .site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container figure {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block figure {
     display: block;
   }
 }
-.site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container img {
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block p {
+  font-size: 17px !important;
+}
+@media (max-width: 900px) {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block p {
+    width: 80%;
+    text-align: center;
+    margin: auto;
+  }
+}
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block img {
   height: 100%;
   object-fit: contain;
   width: 80%;
 }
 @media (min-width: 1200px) {
-  .site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container img {
+  .site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block img {
     width: 100%;
   }
 }
-.site-main-proposals .proposals-list .proposals-list-item .wp-block-group__inner-container h3 {
+.site-main-proposals .wp-block-group__inner-container .wp-block-tiptip-hyperlink-group-block h3 {
   font-size: 25px;
   margin: 0;
 }
@@ -2463,19 +2477,20 @@ aside#secondary .wp-block-embed__wrapper iframe {
 }
 #job-manager-job-dashboard tfoot td {
   text-align: center;
+}
+#job-manager-job-dashboard tfoot td a {
   background-color: #a3195b;
   color: white;
   transition: background-color 200ms ease-in-out;
   padding: 10px;
   text-decoration: none;
-}
-#job-manager-job-dashboard tfoot td:hover {
-  background-color: #8d164f;
-  cursor: pointer;
-}
-#job-manager-job-dashboard tfoot td a {
+  display: block;
   color: white;
   text-decoration: none;
+}
+#job-manager-job-dashboard tfoot td a:hover {
+  background-color: #8d164f;
+  cursor: pointer;
 }
 
 /* Autres

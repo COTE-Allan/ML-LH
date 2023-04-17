@@ -27,9 +27,11 @@
         & td {
             text-align: center;
 
-            @include button($purple, white);
+
 
             & a {
+                @include button($purple, white);
+                display: block;
                 color: white;
                 text-decoration: none;
             }

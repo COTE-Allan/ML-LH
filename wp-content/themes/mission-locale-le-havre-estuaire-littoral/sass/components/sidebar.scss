@@ -11,18 +11,37 @@ aside#secondary {
 
     h2 {
         text-transform: uppercase;
+        margin: 15px 0;
+        margin-top: 30px;
     }
 
     ul {
         margin: 0;
     }
 
+    hr,
+    .widget.widget_block {
+        margin-bottom: 15px;
+    }
+
     .wp-block-latest-posts__list {
         li {
+            border-bottom: grey 1px solid;
+            padding: 5px 0;
+
+            transition: transform 100ms ease-in-out;
+
+            &:hover {
+
+                transform: translateX(-10px);
+
+            }
+
             & a {
                 @include text-overflow(ellipsis);
                 width: 100%;
                 display: inline-block;
+                font-size: 18px
             }
 
             & div {
@@ -30,25 +49,20 @@ aside#secondary {
                 font-size: 18px;
             }
 
+            & .wp-block-latest-posts__post-excerpt {
+                font-size: 15px;
+            }
+
             & .moretag {
 
-                font-size: 15px;
+                font-size: 13px;
                 text-align: center;
                 margin-top: 10px;
-                align-self: flex-end;
-                position: relative;
-                top: 5px;
-                right: 25px;
-
-                @include for-desktop-up {
-                    width: 30%;
-                }
 
                 @include button($purple, white);
             }
 
             @include quadruple-padding(10px, 0, 10px, 0);
-            @include two-bg-colors(white, $grey);
         }
 
         a {
@@ -80,10 +94,8 @@ aside#secondary {
             padding: calc(1.3em + 2px) calc(1.333em + 2px);
             @include text-overflow(ellipsis);
             @include make-it-flex(initial, center, column, column);
+            font-size: 20px;
 
-            @include for-tablet-or-below {
-                font-size: 20px !important;
-            }
 
             & span {
                 $z : 15px;

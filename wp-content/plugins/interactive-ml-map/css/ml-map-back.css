@@ -1,5 +1,5 @@
 /* Ajout des Media Query*/ /* Ajout de la font Akrobat */
-@import url("http://fonts.cdnfonts.com/css/akrobat");
+@import url("https://fonts.cdnfonts.com/css/akrobat");
 h1 {
   margin-top: 20px;
   font-size: 22px;
