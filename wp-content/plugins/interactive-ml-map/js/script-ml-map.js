@@ -1,12 +1,10 @@
 (function ($) {
   $(document).ready(function () {
     // REST API sous forme d'objets JSON
-    // let link_antenna =
-    //   "https://" +
-    //   window.location.hostname +
-    //   "/wp-json/wp/v2/antenne?per_page=20";
-    link_antenna =
-      "https://beta.ml-lehavre.fr/wp-json/wp/v2/antenne?per_page=20";
+    let link_antenna =
+      "https://" +
+      window.location.hostname +
+      "/wp-json/wp/v2/antenne?per_page=20";
     let antenna_list;
     $.ajax({
       type: "GET",
@@ -22,6 +20,7 @@
         $(".ml-map-wrapper-marker#" + antenna_list[0].id).addClass("active");
       },
     });
+    // Boucler sur les marqueurs pour les afficher sur la carte
     function loopingMarkers(data) {
       data.forEach((antenna) => {
         let marker =

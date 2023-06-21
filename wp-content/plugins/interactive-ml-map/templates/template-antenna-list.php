@@ -1,7 +1,7 @@
 <?php
 
 
-// Cette fonction créée la liste de nos antennes.
+// Afficher nos antennes sous forme de liste dans le back
 function list_manage_antennas($terms)
 {
 ?>

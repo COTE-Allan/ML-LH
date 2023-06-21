@@ -1,6 +1,6 @@
 <?php
 
-// Cette fonction avertit l'administrateur lorsqu'une antenne a été créée, éditée, supprimée.
+// Système d'alerte pour notifier l'utilisateur des actions faites sur les antennes.
 function create_banner($value)
 {
 ?>

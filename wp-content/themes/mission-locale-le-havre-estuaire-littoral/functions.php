@@ -258,10 +258,23 @@ function custom_submit_job_form_fields_dm($fields)
 	unset($fields['company']['company_tagline']);
 	unset($fields['company']['company_twitter']);
 	unset($fields['company']['company_logo']);
-	unset($fields['company']['company_name']);
 
 
 
 	// And return the modified fields
 	return $fields;
+}
+
+
+add_filter('job_manager_job_dashboard_columns', 'custom_job_manager_job_dashboard_columns');
+function custom_job_manager_job_dashboard_columns($columns)
+{
+
+
+	// Add columns with proper headings in the correct order.
+	$columns['candidat'] = 'Mail de candidature';
+	$columns['company'] = 'Entreprise';
+
+	// Return.
+	return $columns;
 }

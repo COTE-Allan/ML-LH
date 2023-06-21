@@ -1,6 +1,6 @@
 <?php
 
-// Création du header.
+// Création du header dans le back
 function antenna_header()
 {
 ?>
