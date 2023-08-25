@@ -3,7 +3,7 @@
 Plugin Name: Carte interactive de la Mission Locale
 Plugin URI: https://ml-lehavre.fr/
 Description: Un plugin conçu pour afficher une carte interactive des antennes de la Mission Locale Le Havre Estuaire Littoral.
-Author: Julien Richard 
+Author: Julien RICHARD and Allan COTE
 Version: 1.0
 */
 
